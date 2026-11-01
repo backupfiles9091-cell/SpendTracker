@@ -14,93 +14,170 @@
   <link rel="icon" type="image/png" href="icons/icon-192.png">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-view="home">
   <header class="topbar">
     <div class="month-nav">
-      <button id="prev-month" aria-label="Mes anterior">‹</button>
+      <button id="prev-month" aria-label="‹">‹</button>
       <h1 id="month-label">Mes</h1>
-      <button id="next-month" aria-label="Mes siguiente">›</button>
+      <button id="next-month" aria-label="›">›</button>
     </div>
+    <div id="filter-row"><select id="acc-filter"></select></div>
   </header>
 
   <main>
     <!-- INICIO -->
     <section id="view-home" class="view active">
       <div class="card summary">
-        <div class="label">Balance del mes</div>
+        <div class="label" data-i18n="balEnd"></div>
         <div class="balance" id="sum-balance">$0.00</div>
+        <div class="change" id="sum-change"></div>
         <div class="row">
-          <div><span class="dot inc"></span>Ingresos<strong id="sum-income">$0.00</strong></div>
-          <div><span class="dot exp"></span>Gastos<strong id="sum-expense">$0.00</strong></div>
+          <div><span class="rl"><i class="dot inc"></i><span data-i18n="income"></span></span><strong id="sum-income">$0.00</strong></div>
+          <div><span class="rl"><i class="dot exp"></i><span data-i18n="expense"></span></span><strong id="sum-expense">$0.00</strong></div>
         </div>
       </div>
       <div id="tx-list"></div>
     </section>
 
+    <!-- CUENTAS -->
+    <section id="view-accounts" class="view">
+      <div class="card summary">
+        <div class="label" data-i18n="totalBalance"></div>
+        <div class="balance" id="acc-total">$0.00</div>
+        <div class="change" id="acc-change"></div>
+        <div class="stack" id="acc-stack"></div>
+      </div>
+      <div id="acc-list"></div>
+      <div class="btn-row">
+        <button class="btn" id="btn-add-acc" data-i18n="addAccount"></button>
+        <button class="btn primary" id="btn-transfer" data-i18n="newTransfer"></button>
+      </div>
+    </section>
+
     <!-- ESTADÍSTICAS -->
     <section id="view-stats" class="view">
       <div class="card">
-        <h2>Gastos por categoría</h2>
+        <h2 data-i18n="statsBal"></h2>
+        <div id="trend"></div>
+      </div>
+      <div class="card">
+        <h2 data-i18n="statsCat"></h2>
         <div id="donut"></div>
         <div id="legend"></div>
       </div>
       <div class="card">
-        <h2>Últimos 6 meses</h2>
+        <h2 data-i18n="stats6"></h2>
         <div id="bars"></div>
-        <div class="bars-legend"><span><i class="dot inc"></i>Ingresos</span><span><i class="dot exp"></i>Gastos</span></div>
+        <div class="bars-legend"><span><i class="dot inc"></i><span data-i18n="income"></span></span><span><i class="dot exp"></i><span data-i18n="expense"></span></span></div>
       </div>
     </section>
 
     <!-- AJUSTES -->
     <section id="view-settings" class="view">
+      <h1 class="page-title" data-i18n="tab.settings"></h1>
       <div class="card">
-        <h2>Moneda</h2>
-        <select id="currency">
-          <option value="MXN">Peso mexicano (MXN)</option>
-          <option value="USD">Dólar estadounidense (USD)</option>
-          <option value="EUR">Euro (EUR)</option>
-          <option value="COP">Peso colombiano (COP)</option>
-          <option value="ARS">Peso argentino (ARS)</option>
-          <option value="CLP">Peso chileno (CLP)</option>
-          <option value="PEN">Sol peruano (PEN)</option>
+        <h2 data-i18n="language"></h2>
+        <select id="lang">
+          <option value="es">Español</option>
+          <option value="en">English</option>
         </select>
       </div>
       <div class="card">
-        <h2>Tus datos</h2>
-        <p class="hint">Todo se guarda solo en este dispositivo. iOS puede borrar los datos de una web si no la usas en semanas, así que exporta un respaldo de vez en cuando.</p>
-        <button class="btn" id="btn-export">Exportar respaldo (JSON)</button>
-        <button class="btn" id="btn-csv">Exportar a CSV</button>
-        <button class="btn" id="btn-import">Importar respaldo</button>
+        <h2 data-i18n="currency"></h2>
+        <select id="currency"></select>
+        <p class="hint mt" data-i18n="currencyHint"></p>
+      </div>
+      <div class="card">
+        <h2 data-i18n="categories"></h2>
+        <div class="sub" data-i18n="expenseCats"></div>
+        <div class="chips" id="chips-expense"></div>
+        <div class="sub" data-i18n="incomeCats"></div>
+        <div class="chips" id="chips-income"></div>
+      </div>
+      <div class="card">
+        <h2 data-i18n="data"></h2>
+        <p class="hint" data-i18n="dataHint"></p>
+        <button class="btn" id="btn-import-ms" data-i18n="importMs"></button>
+        <input type="file" id="file-ms" accept=".csv,text/csv,text/plain" hidden>
+        <button class="btn" id="btn-export" data-i18n="exportJson"></button>
+        <button class="btn" id="btn-csv" data-i18n="exportCsv"></button>
+        <button class="btn" id="btn-import" data-i18n="importJson"></button>
         <input type="file" id="file-import" accept="application/json,.json" hidden>
-        <button class="btn danger" id="btn-reset">Borrar todos los datos</button>
+        <button class="btn danger" id="btn-reset" data-i18n="reset"></button>
       </div>
     </section>
   </main>
 
-  <button id="fab" aria-label="Agregar movimiento">+</button>
+  <button id="fab" aria-label="+">+</button>
 
   <nav class="tabbar">
-    <button data-view="home" class="active"><span>🏠</span>Inicio</button>
-    <button data-view="stats"><span>📊</span>Estadísticas</button>
-    <button data-view="settings"><span>⚙️</span>Ajustes</button>
+    <button data-view="home" class="active"><span>🏠</span><em data-i18n="tab.home"></em></button>
+    <button data-view="accounts"><span>🏦</span><em data-i18n="tab.accounts"></em></button>
+    <button data-view="stats"><span>📊</span><em data-i18n="tab.stats"></em></button>
+    <button data-view="settings"><span>⚙️</span><em data-i18n="tab.settings"></em></button>
   </nav>
 
-  <!-- FORMULARIO -->
-  <div id="sheet-backdrop" hidden></div>
-  <div id="sheet" hidden role="dialog" aria-modal="true">
-    <div class="sheet-handle"></div>
-    <div class="seg">
-      <button data-type="expense" class="active">Gasto</button>
-      <button data-type="income">Ingreso</button>
+  <!-- FORMULARIO DE MOVIMIENTO -->
+  <div class="overlay" id="ov-tx" hidden>
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      <div class="seg" id="f-seg"></div>
+      <input id="f-amount" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off">
+      <label class="fld" id="f-acc-wrap"><span data-i18n="account"></span><select id="f-acc"></select></label>
+      <div class="two" id="f-tr-wrap" hidden>
+        <label class="fld"><span data-i18n="from"></span><select id="f-from"></select></label>
+        <label class="fld"><span data-i18n="to"></span><select id="f-to"></select></label>
+      </div>
+      <div id="f-cats" class="cats"></div>
+      <input id="f-date" type="date">
+      <input id="f-note" type="text" data-i18n-ph="notePh" maxlength="120">
+      <div class="sheet-actions">
+        <button class="btn danger" id="f-delete" hidden data-i18n="delete"></button>
+        <button class="btn" id="f-cancel" data-i18n="cancel"></button>
+        <button class="btn primary" id="f-save" data-i18n="save"></button>
+      </div>
     </div>
-    <input id="f-amount" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off">
-    <div id="f-cats" class="cats"></div>
-    <input id="f-date" type="date">
-    <input id="f-note" type="text" placeholder="Nota (opcional)" maxlength="80">
-    <div class="sheet-actions">
-      <button class="btn danger" id="f-delete" hidden>Eliminar</button>
-      <button class="btn" id="f-cancel">Cancelar</button>
-      <button class="btn primary" id="f-save">Guardar</button>
+  </div>
+
+  <!-- DETALLE DE CUENTA -->
+  <div class="overlay" id="ov-detail" hidden>
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      <div id="detail-body"></div>
+    </div>
+  </div>
+
+  <!-- CUENTA: NUEVA / EDITAR -->
+  <div class="overlay" id="ov-acc" hidden>
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      <h3 id="a-title"></h3>
+      <label class="fld"><span data-i18n="accountName"></span><input id="a-name" type="text" maxlength="30" autocomplete="off"></label>
+      <label class="fld"><span data-i18n="opening"></span><input id="a-open" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off"></label>
+      <div class="fld"><span data-i18n="color"></span><div class="swatches" id="a-colors"></div></div>
+      <div class="sheet-actions">
+        <button class="btn danger" id="a-delete" hidden data-i18n="delete"></button>
+        <button class="btn" id="a-cancel" data-i18n="cancel"></button>
+        <button class="btn primary" id="a-save" data-i18n="save"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORÍA: NUEVA / EDITAR -->
+  <div class="overlay" id="ov-cat" hidden>
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      <h3 id="c-title"></h3>
+      <label class="fld"><span data-i18n="catNameT"></span><input id="c-name" type="text" maxlength="24" autocomplete="off"></label>
+      <div class="fld"><span data-i18n="icon"></span>
+        <div class="icon-row"><input id="c-ico" type="text" maxlength="8" autocomplete="off"><div class="emojis" id="c-emojis"></div></div>
+      </div>
+      <div class="fld"><span data-i18n="color"></span><div class="swatches" id="c-colors"></div></div>
+      <div class="sheet-actions">
+        <button class="btn danger" id="c-delete" hidden data-i18n="delete"></button>
+        <button class="btn" id="c-cancel" data-i18n="cancel"></button>
+        <button class="btn primary" id="c-save" data-i18n="save"></button>
+      </div>
     </div>
   </div>
 
