@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Mis Gastos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#0f9d73">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
@@ -76,6 +76,11 @@
 
     <!-- ESTADÍSTICAS -->
     <section id="view-stats" class="view">
+      <div class="seg" id="stats-mode">
+        <button type="button" data-m="month" class="active" data-i18n="stats.month"></button>
+        <button type="button" data-m="year" data-i18n="stats.year"></button>
+      </div>
+      <div class="card" id="year-summary" hidden></div>
       <div class="card">
         <h2 data-i18n="statsBal"></h2>
         <div id="trend"></div>
@@ -86,8 +91,9 @@
         <div id="legend"></div>
       </div>
       <div class="card">
-        <h2 data-i18n="stats6"></h2>
+        <h2 id="bars-title"></h2>
         <div id="bars"></div>
+        <div class="bars-info" id="bars-info"></div>
         <div class="bars-legend"><span><i class="dot inc"></i><span data-i18n="income"></span></span><span><i class="dot exp"></i><span data-i18n="expense"></span></span></div>
       </div>
     </section>

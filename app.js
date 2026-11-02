@@ -12,6 +12,8 @@
       'tab.home': 'Inicio', 'tab.accounts': 'Cuentas', 'tab.stats': 'Estadísticas', 'tab.settings': 'Ajustes',
       allAccounts: 'Todas las cuentas',
       date: 'Fecha', 'tab.recurring': 'Recurrentes',
+      'stats.month': 'Mensual', 'stats.year': 'Anual', statsByMonth: 'Ingresos y gastos por mes',
+      yearSummary: 'Resumen de {y}', net: 'Balance neto', avgSpend: 'Gasto promedio mensual', noExpensesYear: 'Sin gastos en este año.',
       searchPh: 'Buscar movimientos…', filters: 'Filtros',
       'f.type': 'Tipo', 'f.allTypes': 'Todos los tipos', 'f.cat': 'Categoría', 'f.allCats': 'Todas las categorías',
       'f.from': 'Desde', 'f.to': 'Hasta', 'f.min': 'Monto mínimo', 'f.max': 'Monto máximo', 'f.clear': 'Limpiar', 'f.apply': 'Aplicar',
@@ -89,6 +91,8 @@
       'tab.home': 'Home', 'tab.accounts': 'Accounts', 'tab.stats': 'Statistics', 'tab.settings': 'Settings',
       allAccounts: 'All accounts',
       date: 'Date', 'tab.recurring': 'Recurring',
+      'stats.month': 'Monthly', 'stats.year': 'Yearly', statsByMonth: 'Income and spending by month',
+      yearSummary: '{y} summary', net: 'Net balance', avgSpend: 'Average monthly spending', noExpensesYear: 'No spending this year.',
       searchPh: 'Search transactions…', filters: 'Filters',
       'f.type': 'Type', 'f.allTypes': 'All types', 'f.cat': 'Category', 'f.allCats': 'All categories',
       'f.from': 'From', 'f.to': 'To', 'f.min': 'Minimum amount', 'f.max': 'Maximum amount', 'f.clear': 'Clear', 'f.apply': 'Apply',
@@ -307,6 +311,8 @@
 
   let state = loadState();
   let view = 'home';
+  let statsMode = 'month'; // 'month' | 'year'
+  let barSel = null;       // columna seleccionada en la gráfica de barras
   let cur = new Date(); cur.setDate(1);
   let filterAcc = 'all';
 
@@ -444,9 +450,15 @@
     $('#f-unit').innerHTML = ['day', 'week', 'month', 'year'].map(u => `<option value="${u}">${esc(t('unit.' + u))}</option>`).join('');
   }
 
-  function render() {
+  // El título de arriba muestra el mes, o solo el año cuando se ve Estadísticas en modo anual.
+  function renderLabel() {
+    if (view === 'stats' && statsMode === 'year') { $('#month-label').textContent = String(cur.getFullYear()); return; }
     const ml = cur.toLocaleDateString(loc(), { month: 'long', year: 'numeric' });
     $('#month-label').textContent = ml.charAt(0).toUpperCase() + ml.slice(1);
+  }
+
+  function render() {
+    renderLabel();
     renderFilter();
     renderHome();
     renderAccounts();
@@ -556,27 +568,84 @@
   }
 
   /* --- Gráficas SVG --- */
+  // Escala "redonda" para el eje Y: límites y marcas en múltiplos de 1, 2, 2.5 o 5 × 10ⁿ.
+  function niceScale(min, max, n) {
+    if (!(max > min)) max = min + 1;
+    const raw = (max - min) / n;
+    const pow = Math.pow(10, Math.floor(Math.log10(raw)));
+    const f = raw / pow;
+    const step = (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * pow;
+    const lo = Math.floor(min / step + 1e-9) * step, hi = Math.ceil(max / step - 1e-9) * step;
+    const ticks = [];
+    for (let i = 0, c = Math.round((hi - lo) / step); i <= c; i++) ticks.push(lo + i * step);
+    return { lo, hi, ticks };
+  }
+  function currencySym() {
+    try {
+      const p = new Intl.NumberFormat('es-MX', { style: 'currency', currency: state.currency }).formatToParts(0).find(x => x.type === 'currency');
+      return p && p.value.length <= 2 ? p.value : '';
+    } catch (e) { return '$'; }
+  }
+  // Número corto para el eje: $850, $1.5k, $20k, $1.2M
+  function axisFmt(v) {
+    const a = Math.abs(v), tr = x => String(Math.round(x * 10) / 10);
+    const s = a >= 1e6 ? tr(a / 1e6) + 'M' : a >= 1e3 ? tr(a / 1e3) + 'k' : tr(a);
+    return (v < 0 ? '−' : '') + currencySym() + s;
+  }
+  const gridSvg = (sc, Y, L, W, R) => sc.ticks.map(v => {
+    const y = Y(v);
+    return `<line x1="${L}" x2="${W - R}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--line)"${v === 0 ? '' : ' stroke-dasharray="3 3"'}/>` +
+      `<text x="${L - 6}" y="${(y + 3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="var(--muted)">${esc(axisFmt(v))}</text>`;
+  }).join('');
+
   function lineSvg(pts, color) {
-    const W = 320, H = 150, pl = 12, pr = 12, pt = 24, pb = 26;
+    const W = 340, H = 165, L = 46, R = 12, top = 16, bot = 26, base = H - bot;
     const vals = pts.map(p => p.v);
-    let min = Math.min(...vals), max = Math.max(...vals);
-    if (min === max) { min -= 1; max += 1; }
-    const padv = (max - min) * 0.12; min -= padv; max += padv;
-    const X = i => pl + (W - pl - pr) * (pts.length === 1 ? 0.5 : i / (pts.length - 1));
-    const Y = v => pt + (H - pt - pb) * (max - v) / (max - min);
+    const mn = Math.min(...vals), mx = Math.max(...vals);
+    const sc = mn === mx ? { lo: mn - 1, hi: mx + 1, ticks: [mn] } : niceScale(mn, mx, 3);
+    const X = i => L + (W - L - R) * (pts.length === 1 ? 0.5 : i / (pts.length - 1));
+    const Y = v => top + (base - top) * (sc.hi - v) / (sc.hi - sc.lo);
     const line = pts.map((p, i) => `${X(i).toFixed(1)},${Y(p.v).toFixed(1)}`).join(' ');
-    const area = `${X(0).toFixed(1)},${H - pb} ${line} ${X(pts.length - 1).toFixed(1)},${H - pb}`;
-    const zero = (min < 0 && max > 0) ? `<line x1="${pl}" x2="${W - pr}" y1="${Y(0).toFixed(1)}" y2="${Y(0).toFixed(1)}" stroke="var(--line)" stroke-dasharray="3 3"/>` : '';
-    const dots = pts.map((p, i) => `<circle cx="${X(i).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="3.5" fill="${color}"/>`).join('');
-    const labels = pts.map((p, i) => `<text x="${X(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--muted)">${esc(p.label)}</text>`).join('');
+    const area = `${X(0).toFixed(1)},${base} ${line} ${X(pts.length - 1).toFixed(1)},${base}`;
+    const many = pts.length > 8;
+    const dots = pts.map((p, i) => `<circle cx="${X(i).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="${many ? 2.5 : 3.5}" fill="${color}"/>`).join('');
+    const labels = pts.map((p, i) => `<text x="${X(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="${many ? 10 : 11}" fill="var(--muted)">${esc(p.label)}</text>`).join('');
     const last = pts[pts.length - 1];
-    const lastTxt = `<text x="${(X(pts.length - 1)).toFixed(1)}" y="${(Y(last.v) - 9).toFixed(1)}" text-anchor="end" font-size="11" font-weight="700" fill="var(--text)">${esc(money(last.v))}</text>`;
-    return `<svg viewBox="0 0 ${W} ${H}" role="img"><line x1="${pl}" x2="${W - pr}" y1="${H - pb}" y2="${H - pb}" stroke="var(--line)"/>${zero}
+    let ly = Y(last.v) - 8; if (ly < 12) ly = Y(last.v) + 16;
+    const lastTxt = `<text x="${X(pts.length - 1).toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="end" font-size="11" font-weight="700" fill="var(--text)">${esc(money(last.v))}</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img">${gridSvg(sc, Y, L, W, R)}<line x1="${L}" x2="${W - R}" y1="${base}" y2="${base}" stroke="var(--line)"/>
       <polygon points="${area}" fill="${color}" opacity=".12"/><polyline points="${line}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${dots}${labels}${lastTxt}</svg>`;
   }
+
+  // Barras de ingresos/gastos por mes con eje Y; cada columna se puede tocar para ver los montos exactos.
+  function barsSvg(months, sel) {
+    const W = 340, H = 178, L = 46, R = 6, top = 10, base = 152;
+    const mx = Math.max(0, ...months.map(m => Math.max(m.inc, m.exp)));
+    const sc = mx === 0 ? { lo: 0, hi: 1, ticks: [0] } : niceScale(0, mx, 4);
+    const Y = v => base - (v - sc.lo) / (sc.hi - sc.lo) * (base - top);
+    const slot = (W - L - R) / months.length;
+    const bw = Math.min(16, slot * 0.34), gap = Math.max(2, slot * 0.06), rx = Math.min(3, bw / 3);
+    const cols = months.map((m, i) => {
+      const sx = L + i * slot, x0 = sx + (slot - (bw * 2 + gap)) / 2;
+      const hi = base - Y(m.inc), he = base - Y(m.exp);
+      return (i === sel ? `<rect x="${sx.toFixed(1)}" y="${top - 4}" width="${slot.toFixed(1)}" height="${base - top + 4}" rx="6" fill="var(--primary)" opacity=".10"/>` : '') +
+        `<rect x="${x0.toFixed(1)}" y="${Y(m.inc).toFixed(1)}" width="${bw.toFixed(1)}" height="${hi.toFixed(1)}" rx="${rx}" fill="var(--income)"/>` +
+        `<rect x="${(x0 + bw + gap).toFixed(1)}" y="${Y(m.exp).toFixed(1)}" width="${bw.toFixed(1)}" height="${he.toFixed(1)}" rx="${rx}" fill="var(--expense)"/>` +
+        `<text x="${(sx + slot / 2).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="${months.length > 8 ? 10 : 11}" fill="${i === sel ? 'var(--text)' : 'var(--muted)'}" font-weight="${i === sel ? 700 : 400}">${esc(m.label)}</text>` +
+        `<rect class="col" data-i="${i}" x="${sx.toFixed(1)}" y="0" width="${slot.toFixed(1)}" height="${H}" fill="transparent"/>`;
+    }).join('');
+    return `<svg viewBox="0 0 ${W} ${H}" role="img">${gridSvg(sc, Y, L, W, R)}${cols}</svg>`;
+  }
+
   const monthShort = d => d.toLocaleDateString(loc(), { month: 'short' }).replace('.', '');
-  function trendPoints(ids) {
+  function trendPoints(ids, yearly) {
     const pts = [];
+    if (yearly) { // enero → diciembre del año visto (si es el año actual, solo hasta el mes actual)
+      const y = cur.getFullYear(), now = new Date();
+      const lastM = y === now.getFullYear() ? now.getMonth() : 11;
+      for (let m = 0; m <= lastM; m++) { const d = new Date(y, m, 1); pts.push({ label: monthShort(d), v: sumBal(ids, endOf(d)) }); }
+      return pts;
+    }
     for (let i = 5; i >= 0; i--) {
       const d = shiftMonth(cur, -i);
       pts.push({ label: monthShort(d), v: sumBal(ids, endOf(d)) });
@@ -585,14 +654,34 @@
   }
 
   function renderStats() {
-    $('#trend').innerHTML = lineSvg(trendPoints(filterIds()), 'var(--primary)');
+    const yearly = statsMode === 'year';
+    const y = cur.getFullYear(), now = new Date();
+    const prefix = yearly ? String(y) : monthKey(cur);
+    $$('#stats-mode button').forEach(b => b.classList.toggle('active', b.dataset.m === statsMode));
+    $('#trend').innerHTML = lineSvg(trendPoints(filterIds(), yearly), 'var(--primary)');
 
-    const list = state.tx.filter(x => x.type === 'expense' && x.date.startsWith(monthKey(cur)) && inFilter(x));
+    // Resumen del año (solo en vista anual)
+    const ys = $('#year-summary');
+    ys.hidden = !yearly;
+    if (yearly) {
+      let inc = 0, exp = 0;
+      state.tx.forEach(x => {
+        if (!x.date.startsWith(prefix) || !inFilter(x)) return;
+        if (x.type === 'income') inc += x.amount; else if (x.type === 'expense') exp += x.amount;
+      });
+      const elapsed = y === now.getFullYear() ? now.getMonth() + 1 : 12;
+      const net = round2(inc - exp);
+      const st = (l, v, cls) => `<div>${esc(l)}<strong class="${cls || ''}">${esc(money(v))}</strong></div>`;
+      ys.innerHTML = `<h2>${esc(t('yearSummary', { y }))}</h2><div class="grid2">${st(t('income'), inc)}${st(t('expense'), exp)}${st(t('net'), net, colorCls(net))}${st(t('avgSpend'), round2(exp / elapsed))}</div>`;
+    }
+
+    // Gastos por categoría (del mes o de todo el año)
+    const list = state.tx.filter(x => x.type === 'expense' && x.date.startsWith(prefix) && inFilter(x));
     const total = list.reduce((a, x) => a + x.amount, 0);
     const donut = $('#donut'), legend = $('#legend');
     if (!total) {
       donut.innerHTML = '';
-      legend.innerHTML = `<div class="empty">${esc(t('noExpenses'))}</div>`;
+      legend.innerHTML = `<div class="empty">${esc(t(yearly ? 'noExpensesYear' : 'noExpenses'))}</div>`;
     } else {
       const byCat = {};
       list.forEach(x => { byCat[x.cat] = (byCat[x.cat] || 0) + x.amount; });
@@ -617,26 +706,26 @@
       }).join('');
     }
 
+    // Ingresos y gastos por mes: últimos 6 meses, o los 12 meses del año
     const months = [];
-    for (let i = 5; i >= 0; i--) {
-      const d = shiftMonth(cur, -i), mk = monthKey(d);
+    const count = yearly ? 12 : 6;
+    for (let i = 0; i < count; i++) {
+      const d = yearly ? new Date(y, i, 1) : shiftMonth(cur, i - 5);
+      const mk = monthKey(d);
       let inc = 0, exp = 0;
       state.tx.forEach(x => {
         if (!x.date.startsWith(mk) || !inFilter(x)) return;
         if (x.type === 'income') inc += x.amount; else if (x.type === 'expense') exp += x.amount;
       });
-      months.push({ label: monthShort(d), inc, exp });
+      months.push({ label: monthShort(d), d, inc, exp });
     }
-    const max = Math.max(1, ...months.map(m => Math.max(m.inc, m.exp)));
-    const W = 320, H = 150, base = 128, top = 12, bw = 16, gap = 6, step = W / 6;
-    const bars = months.map((m, i) => {
-      const x0 = i * step + (step - (bw * 2 + gap)) / 2;
-      const hi = (m.inc / max) * (base - top), he = (m.exp / max) * (base - top);
-      return `<rect x="${x0.toFixed(1)}" y="${(base - hi).toFixed(1)}" width="${bw}" height="${hi.toFixed(1)}" rx="4" fill="var(--income)"/>
-        <rect x="${(x0 + bw + gap).toFixed(1)}" y="${(base - he).toFixed(1)}" width="${bw}" height="${he.toFixed(1)}" rx="4" fill="var(--expense)"/>
-        <text x="${(i * step + step / 2).toFixed(1)}" y="145" text-anchor="middle" font-size="11" fill="var(--muted)">${esc(m.label)}</text>`;
-    }).join('');
-    $('#bars').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img"><line x1="0" y1="${base}" x2="${W}" y2="${base}" stroke="var(--line)"/>${bars}</svg>`;
+    if (barSel === null || barSel >= months.length) barSel = yearly ? (y === now.getFullYear() ? now.getMonth() : 11) : 5;
+    $('#bars-title').textContent = t(yearly ? 'statsByMonth' : 'stats6');
+    $('#bars').innerHTML = barsSvg(months, barSel);
+    const m = months[barSel];
+    let dl = m.d.toLocaleDateString(loc(), { month: 'long', year: 'numeric' });
+    dl = dl.charAt(0).toUpperCase() + dl.slice(1);
+    $('#bars-info').innerHTML = `<b>${esc(dl)}</b><span class="pos">${esc(t('income'))}: ${esc(money(m.inc))}</span><span class="neg">${esc(t('expense'))}: ${esc(money(m.exp))}</span>`;
   }
 
   function renderSettings() {
@@ -655,14 +744,25 @@
   function setView(v) {
     view = v;
     document.body.dataset.view = v;
+    renderLabel();
     $$('.view').forEach(el => el.classList.toggle('active', el.id === 'view-' + v));
     $$('.tabbar button').forEach(b => b.classList.toggle('active', b.dataset.view === v));
     $('#fab').hidden = v !== 'home';
     window.scrollTo(0, 0);
   }
   $$('.tabbar button').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
-  $('#prev-month').addEventListener('click', () => { cur = shiftMonth(cur, -1); render(); });
-  $('#next-month').addEventListener('click', () => { cur = shiftMonth(cur, 1); render(); });
+  // En Estadísticas (modo anual) las flechas avanzan de año en año; en todo lo demás, de mes en mes.
+  const navStep = () => (view === 'stats' && statsMode === 'year' ? 12 : 1);
+  $('#prev-month').addEventListener('click', () => { cur = shiftMonth(cur, -navStep()); barSel = null; render(); });
+  $('#next-month').addEventListener('click', () => { cur = shiftMonth(cur, navStep()); barSel = null; render(); });
+  $('#stats-mode').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    statsMode = b.dataset.m; barSel = null; render();
+  });
+  $('#bars').addEventListener('click', e => {
+    const c = e.target.closest('[data-i]'); if (!c) return;
+    barSel = +c.dataset.i; renderStats();
+  });
   $('#acc-filter').addEventListener('change', e => { filterAcc = e.target.value; render(); });
 
   /* --- Overlays --- */
@@ -1358,6 +1458,8 @@
   render();
   setView('home');
   if (boot.made) recToast(boot.made);
+  // Sin zoom: el pellizco de Safari/iOS se dispara con eventos "gesture*"; el doble toque se evita con touch-action en el CSS.
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(ev => document.addEventListener(ev, e => e.preventDefault(), { passive: false }));
   // Al volver a la app (por ejemplo desde la pantalla de inicio del iPhone) se registran los pagos que ya tocaban.
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState !== 'visible') return;
