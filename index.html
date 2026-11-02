@@ -27,7 +27,18 @@
   <main>
     <!-- INICIO -->
     <section id="view-home" class="view active">
-      <div class="card summary">
+      <div class="searchbar">
+        <div class="sinput">
+          <span class="si">🔍</span>
+          <input id="q" type="search" data-i18n-ph="searchPh" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+          <button id="q-clear" type="button" hidden aria-label="✕">✕</button>
+        </div>
+        <button id="btn-filters" type="button" aria-label="Filtros">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>
+          <b id="f-badge" hidden></b>
+        </button>
+      </div>
+      <div class="card summary" id="home-summary">
         <div class="label" data-i18n="balEnd"></div>
         <div class="balance" id="sum-balance">$0.00</div>
         <div class="change" id="sum-change"></div>
@@ -35,6 +46,15 @@
           <div><span class="rl"><i class="dot inc"></i><span data-i18n="income"></span></span><strong id="sum-income">$0.00</strong></div>
           <div><span class="rl"><i class="dot exp"></i><span data-i18n="expense"></span></span><strong id="sum-expense">$0.00</strong></div>
         </div>
+      </div>
+      <div class="card summary" id="search-summary" hidden>
+        <div class="label" data-i18n="results"></div>
+        <div class="balance sm" id="res-count"></div>
+        <div class="row">
+          <div><span class="rl"><i class="dot inc"></i><span data-i18n="income"></span></span><strong id="res-income">$0.00</strong></div>
+          <div><span class="rl"><i class="dot exp"></i><span data-i18n="expense"></span></span><strong id="res-expense">$0.00</strong></div>
+        </div>
+        <button class="btn" id="btn-clear-search" data-i18n="clearSearch"></button>
       </div>
       <div id="tx-list"></div>
     </section>
@@ -70,6 +90,20 @@
         <div id="bars"></div>
         <div class="bars-legend"><span><i class="dot inc"></i><span data-i18n="income"></span></span><span><i class="dot exp"></i><span data-i18n="expense"></span></span></div>
       </div>
+    </section>
+
+    <!-- RECURRENTES -->
+    <section id="view-recurring" class="view">
+      <h1 class="page-title" data-i18n="rec.title"></h1>
+      <div class="card summary">
+        <div class="label" data-i18n="rec.monthlyEst"></div>
+        <div class="row" style="margin-top:8px">
+          <div><span class="rl"><i class="dot inc"></i><span data-i18n="income"></span></span><strong id="rec-income">$0.00</strong></div>
+          <div><span class="rl"><i class="dot exp"></i><span data-i18n="expense"></span></span><strong id="rec-expense">$0.00</strong></div>
+        </div>
+      </div>
+      <div id="rec-list"></div>
+      <button class="btn primary" id="btn-add-rec" data-i18n="rec.add"></button>
     </section>
 
     <!-- AJUSTES -->
@@ -114,6 +148,7 @@
     <button data-view="home" class="active"><span>🏠</span><em data-i18n="tab.home"></em></button>
     <button data-view="accounts"><span>🏦</span><em data-i18n="tab.accounts"></em></button>
     <button data-view="stats"><span>📊</span><em data-i18n="tab.stats"></em></button>
+    <button data-view="recurring"><span>🔁</span><em data-i18n="tab.recurring"></em></button>
     <button data-view="settings"><span>⚙️</span><em data-i18n="tab.settings"></em></button>
   </nav>
 
@@ -129,12 +164,43 @@
         <label class="fld"><span data-i18n="to"></span><select id="f-to"></select></label>
       </div>
       <div id="f-cats" class="cats"></div>
-      <input id="f-date" type="date">
+      <label class="fld"><span id="f-date-l" data-i18n="date"></span><input id="f-date" type="date"></label>
       <input id="f-note" type="text" data-i18n-ph="notePh" maxlength="120">
+      <label class="switch" id="f-rec-row"><span data-i18n="rec.repeat"></span><input type="checkbox" id="f-rec"></label>
+      <div class="rec-box" id="f-rec-wrap" hidden>
+        <div class="fld"><span data-i18n="rec.every"></span>
+          <div class="every"><input id="f-every" type="number" inputmode="numeric" min="1" max="999" value="1"><select id="f-unit"></select></div>
+        </div>
+        <label class="fld"><span data-i18n="rec.until"></span><input id="f-end" type="date"></label>
+        <label class="switch" id="f-active-row" hidden><span data-i18n="rec.active"></span><input type="checkbox" id="f-active" checked></label>
+        <p class="hint" data-i18n="rec.hint"></p>
+      </div>
       <div class="sheet-actions">
         <button class="btn danger" id="f-delete" hidden data-i18n="delete"></button>
         <button class="btn" id="f-cancel" data-i18n="cancel"></button>
         <button class="btn primary" id="f-save" data-i18n="save"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTROS DE BÚSQUEDA -->
+  <div class="overlay" id="ov-filter" hidden>
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      <h3 data-i18n="filters"></h3>
+      <label class="fld"><span data-i18n="f.type"></span><select id="flt-type"></select></label>
+      <label class="fld"><span data-i18n="f.cat"></span><select id="flt-cat"></select></label>
+      <div class="two">
+        <label class="fld"><span data-i18n="f.from"></span><input id="flt-from" type="date"></label>
+        <label class="fld"><span data-i18n="f.to"></span><input id="flt-to" type="date"></label>
+      </div>
+      <div class="two">
+        <label class="fld"><span data-i18n="f.min"></span><input id="flt-min" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off"></label>
+        <label class="fld"><span data-i18n="f.max"></span><input id="flt-max" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off"></label>
+      </div>
+      <div class="sheet-actions">
+        <button class="btn" id="flt-clear" data-i18n="f.clear"></button>
+        <button class="btn primary" id="flt-apply" data-i18n="f.apply"></button>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 // Cambia este número cada vez que actualices archivos, para que los iPhones descarguen la versión nueva.
-const VERSION = 'gastos-v2';
+const VERSION = 'gastos-v3';
 const FILES = [
   './',
   './index.html',

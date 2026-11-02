@@ -11,6 +11,27 @@
     es: {
       'tab.home': 'Inicio', 'tab.accounts': 'Cuentas', 'tab.stats': 'Estadísticas', 'tab.settings': 'Ajustes',
       allAccounts: 'Todas las cuentas',
+      date: 'Fecha', 'tab.recurring': 'Recurrentes',
+      searchPh: 'Buscar movimientos…', filters: 'Filtros',
+      'f.type': 'Tipo', 'f.allTypes': 'Todos los tipos', 'f.cat': 'Categoría', 'f.allCats': 'Todas las categorías',
+      'f.from': 'Desde', 'f.to': 'Hasta', 'f.min': 'Monto mínimo', 'f.max': 'Monto máximo', 'f.clear': 'Limpiar', 'f.apply': 'Aplicar',
+      'type.adjust': 'Ajustes de saldo',
+      results: 'Resultados', noResults: 'No se encontraron movimientos con esa búsqueda.', showMore: 'Mostrar más',
+      clearSearch: 'Quitar búsqueda y filtros',
+      'rec.title': 'Pagos recurrentes', 'rec.add': 'Agregar pago recurrente', 'rec.monthlyEst': 'Estimado mensual',
+      'rec.next': 'próximo {d}', 'rec.ended': 'terminado', 'rec.paused': 'pausado',
+      'rec.empty': 'Aún no tienes pagos recurrentes.<br>Agrega uno para que se registre solo: renta, suscripciones, sueldo…',
+      'rec.repeat': 'Repetir', 'rec.every': 'Repetir cada', 'rec.until': 'Hasta (opcional)', 'rec.active': 'Activo',
+      'rec.start': 'Fecha de inicio',
+      'rec.hint': 'Cada movimiento se registra solo en su fecha. Si pasan días sin abrir la app, al abrirla se registran los que faltaron con su fecha correcta.',
+      'rec.day1': 'Cada día', 'rec.dayN': 'Cada {n} días', 'rec.week1': 'Cada semana', 'rec.weekN': 'Cada {n} semanas',
+      'rec.month1': 'Cada mes', 'rec.monthN': 'Cada {n} meses', 'rec.year1': 'Cada año', 'rec.yearN': 'Cada {n} años',
+      'unit.day': 'Días', 'unit.week': 'Semanas', 'unit.month': 'Meses', 'unit.year': 'Años',
+      'rec.created': 'Se registraron {n} movimientos recurrentes', 'rec.created1': 'Se registró 1 movimiento recurrente',
+      'rec.badEnd': 'La fecha final debe ser posterior al inicio',
+      'rec.backfill': 'Con esa fecha de inicio se registrarán {n} movimientos pasados de golpe. ¿Continuar?',
+      cDelRule: '¿Eliminar este pago recurrente? Los movimientos ya registrados se conservan.',
+      cDelAccRec: ' También se eliminarán {r} pagos recurrentes de esa cuenta.',
       balEnd: 'Saldo al cierre del mes', monthChange: 'Cambio del mes',
       income: 'Ingresos', expense: 'Gastos',
       'type.expense': 'Gasto', 'type.income': 'Ingreso', 'type.transfer': 'Transferencia',
@@ -67,6 +88,27 @@
     en: {
       'tab.home': 'Home', 'tab.accounts': 'Accounts', 'tab.stats': 'Statistics', 'tab.settings': 'Settings',
       allAccounts: 'All accounts',
+      date: 'Date', 'tab.recurring': 'Recurring',
+      searchPh: 'Search transactions…', filters: 'Filters',
+      'f.type': 'Type', 'f.allTypes': 'All types', 'f.cat': 'Category', 'f.allCats': 'All categories',
+      'f.from': 'From', 'f.to': 'To', 'f.min': 'Minimum amount', 'f.max': 'Maximum amount', 'f.clear': 'Clear', 'f.apply': 'Apply',
+      'type.adjust': 'Balance adjustments',
+      results: 'Results', noResults: 'No transactions match your search.', showMore: 'Show more',
+      clearSearch: 'Clear search and filters',
+      'rec.title': 'Recurring payments', 'rec.add': 'Add recurring payment', 'rec.monthlyEst': 'Monthly estimate',
+      'rec.next': 'next {d}', 'rec.ended': 'ended', 'rec.paused': 'paused',
+      'rec.empty': 'No recurring payments yet.<br>Add one so it records itself: rent, subscriptions, salary…',
+      'rec.repeat': 'Repeat', 'rec.every': 'Repeat every', 'rec.until': 'Until (optional)', 'rec.active': 'Active',
+      'rec.start': 'Start date',
+      'rec.hint': 'Each transaction is recorded automatically on its date. If you go days without opening the app, the missed ones are recorded with their correct date when you open it.',
+      'rec.day1': 'Every day', 'rec.dayN': 'Every {n} days', 'rec.week1': 'Every week', 'rec.weekN': 'Every {n} weeks',
+      'rec.month1': 'Every month', 'rec.monthN': 'Every {n} months', 'rec.year1': 'Every year', 'rec.yearN': 'Every {n} years',
+      'unit.day': 'Days', 'unit.week': 'Weeks', 'unit.month': 'Months', 'unit.year': 'Years',
+      'rec.created': '{n} recurring transactions were recorded', 'rec.created1': '1 recurring transaction was recorded',
+      'rec.badEnd': 'The end date must be after the start date',
+      'rec.backfill': 'With that start date, {n} past transactions will be recorded at once. Continue?',
+      cDelRule: 'Delete this recurring payment? Transactions already recorded are kept.',
+      cDelAccRec: ' {r} recurring payments of that account will also be deleted.',
       balEnd: 'Balance at end of month', monthChange: 'Change this month',
       income: 'Income', expense: 'Expenses',
       'type.expense': 'Expense', 'type.income': 'Income', 'type.transfer': 'Transfer',
@@ -168,7 +210,7 @@
 
   function defaults() {
     return {
-      v: 2, currency: 'MXN', lang: 'es', lastAcc: 'main',
+      v: 2, currency: 'MXN', lang: 'es', lastAcc: 'main', recurring: [],
       accounts: DEFAULT_ACCOUNTS.map(([id, name], i) => ({ id, name, color: PALETTE[i % PALETTE.length], opening: 0 })),
       cats: { expense: DEFAULT_CATS.expense.map(c => ({ ...c })), income: DEFAULT_CATS.income.map(c => ({ ...c })) },
       tx: []
@@ -221,8 +263,26 @@
         const o = { id: String(x.id || uid()), type: x.type, amount: Number(x.amount), date: x.date, note: String(x.note || ''), acc: accIds.has(x.acc) ? x.acc : first };
         if (x.type === 'transfer') o.to = x.to;
         if (x.type === 'expense' || x.type === 'income') o.cat = String(x.cat || '');
+        if (x.rid) o.rid = String(x.rid);
         return o;
       }).filter(x => x.type !== 'transfer' || (accIds.has(x.to) && x.to !== x.acc));
+    }
+    if (Array.isArray(d.recurring)) {
+      const seenR = new Set();
+      base.recurring = d.recurring.filter(r => r && r.id && !seenR.has(String(r.id)) && seenR.add(String(r.id)) &&
+        ['expense', 'income', 'transfer'].includes(r.type) && isFinite(r.amount) && r.amount > 0 &&
+        accIds.has(r.acc) && ['day', 'week', 'month', 'year'].includes(r.unit) && DATE_RE.test(String(r.start)) &&
+        (r.type !== 'transfer' || (accIds.has(r.to) && r.to !== r.acc))
+      ).map(r => {
+        const o = {
+          id: String(r.id), type: r.type, amount: Number(r.amount), acc: r.acc, note: String(r.note || ''),
+          every: Math.max(1, Math.min(999, parseInt(r.every, 10) || 1)), unit: r.unit, start: r.start,
+          end: DATE_RE.test(String(r.end)) ? r.end : null, last: DATE_RE.test(String(r.last)) ? r.last : null,
+          k: 0, active: r.active !== false
+        };
+        if (r.type === 'transfer') o.to = r.to; else o.cat = String(r.cat || '');
+        return o;
+      });
     }
     return base;
   }
@@ -318,6 +378,62 @@
   const endOf = d => monthKey(d) + '-31'; // las fechas son texto ISO: comparar con "-31" funciona para cualquier mes
   const shiftMonth = (d, n) => new Date(d.getFullYear(), d.getMonth() + n, 1);
 
+  /* --- Calendario de pagos recurrentes ---
+     Cada regla guarda inicio + "cada N días/semanas/meses/años". La ocurrencia k se calcula siempre desde el inicio
+     (no encadenando la anterior), así un pago del día 31 vuelve al 31 en los meses que lo tienen. */
+  const fmtDate = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  function addDays(ds, n) { const d = parseDate(ds); d.setDate(d.getDate() + n); return fmtDate(d); }
+  function addMonths(ds, n) {
+    const [y, m, day] = ds.split('-').map(Number);
+    const tm = (m - 1) + n;
+    const ty = y + Math.floor(tm / 12);
+    const tmo = ((tm % 12) + 12) % 12;
+    const lastDay = new Date(ty, tmo + 1, 0).getDate();
+    return `${ty}-${pad(tmo + 1)}-${pad(Math.min(day, lastDay))}`;
+  }
+  function occ(r, k) {
+    switch (r.unit) {
+      case 'day': return addDays(r.start, r.every * k);
+      case 'week': return addDays(r.start, 7 * r.every * k);
+      case 'month': return addMonths(r.start, r.every * k);
+      default: return addMonths(r.start, 12 * r.every * k);
+    }
+  }
+  // Próxima fecha pendiente: la primera ocurrencia posterior a la última ya registrada.
+  function nextOcc(r) {
+    let k = r.k || 0, d = occ(r, k), g = 0;
+    while (r.last && d <= r.last && g++ < 50000) { k++; d = occ(r, k); }
+    r.k = k;
+    return d;
+  }
+  const isEnded = r => !!r.end && nextOcc(r) > r.end;
+  function dueCount(r) {
+    const p = { ...r }, today = todayStr();
+    let n = 0, nx;
+    while ((nx = nextOcc(p)) <= today && (!p.end || nx <= p.end) && n < 1000) { p.last = nx; p.k++; n++; }
+    return n;
+  }
+  // Registra los movimientos que ya tocaban (incluye los que se acumularon mientras la app estuvo cerrada).
+  function generateDue() {
+    const today = todayStr();
+    let made = 0, latest = '';
+    state.recurring.forEach(r => {
+      if (!r.active) return;
+      let g = 0, nx;
+      while ((nx = nextOcc(r)) <= today && (!r.end || nx <= r.end) && g++ < 1000) {
+        const x = { id: uid(), type: r.type, acc: r.acc, amount: r.amount, date: nx, note: r.note, rid: r.id };
+        if (r.type === 'transfer') x.to = r.to; else x.cat = r.cat;
+        state.tx.push(x);
+        r.last = nx; r.k++; made++;
+        if (nx > latest) latest = nx;
+      }
+    });
+    if (made) save();
+    return { made, latest };
+  }
+  const freqLabel = r => t('rec.' + r.unit + (r.every === 1 ? '1' : 'N'), { n: r.every });
+  const perMonth = r => ({ day: 30.4375, week: 4.3452, month: 1, year: 1 / 12 }[r.unit] / r.every);
+
   /* =====================================================================
      Vistas
      ===================================================================== */
@@ -325,6 +441,7 @@
     document.documentElement.lang = state.lang;
     $$('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
     $$('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+    $('#f-unit').innerHTML = ['day', 'week', 'month', 'year'].map(u => `<option value="${u}">${esc(t('unit.' + u))}</option>`).join('');
   }
 
   function render() {
@@ -334,6 +451,7 @@
     renderHome();
     renderAccounts();
     renderStats();
+    renderRecurring();
     renderSettings();
   }
 
@@ -352,7 +470,7 @@
       let sign = '', cls = 'neutral';
       if (f !== 'all') { if (x.acc === f) { sign = '−'; cls = 'expense'; } else { sign = '+'; cls = 'income'; } }
       return `<button class="tx" data-id="${esc(x.id)}"><div class="ico" style="background:#64748b22">🔁</div>
-        <div class="info"><b>${esc(accName(x.acc))} → ${esc(accName(x.to))}</b>${x.note ? `<small>${esc(x.note)}</small>` : ''}</div>
+        <div class="info"><b>${esc(accName(x.acc))} → ${esc(accName(x.to))}</b>${x.note || x.rid ? `<small>${x.rid ? '🔁 ' : ''}${esc(x.note || '')}</small>` : ''}</div>
         <div class="amt ${cls}">${sign}${esc(money(x.amount))}</div></button>`;
     }
     if (x.type === 'adjust') {
@@ -362,13 +480,22 @@
         <div class="amt ${up ? 'income' : 'expense'}">${up ? '+' : '−'}${esc(money(Math.abs(x.amount)))}</div></button>`;
     }
     const c = findCat(x.cat);
-    const sub = (f === 'all' ? accName(x.acc) + (x.note ? ' · ' : '') : '') + (x.note || '');
+    const sub = (x.rid ? '🔁 ' : '') + (f === 'all' ? accName(x.acc) + (x.note ? ' · ' : '') : '') + (x.note || '');
     return `<button class="tx" data-id="${esc(x.id)}"><div class="ico" style="background:${esc(c.color)}22">${esc(c.ico)}</div>
       <div class="info"><b>${esc(catName(c))}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</div>
       <div class="amt ${x.type}">${x.type === 'income' ? '+' : '−'}${esc(money(x.amount))}</div></button>`;
   }
 
   function renderHome() {
+    const active = searchActive();
+    document.body.dataset.search = active ? 'on' : 'off';
+    $('#q-clear').hidden = !S.q;
+    const nf = filterCount();
+    $('#f-badge').hidden = !nf;
+    $('#f-badge').textContent = nf;
+    $('#home-summary').hidden = active;
+    $('#search-summary').hidden = !active;
+    if (active) { renderSearch(); return; }
     const ids = filterIds();
     const mk = monthKey(cur);
     const bal = sumBal(ids, endOf(cur));
@@ -555,7 +682,7 @@
   /* =====================================================================
      Formulario de movimientos (gasto / ingreso / transferencia)
      ===================================================================== */
-  const F = { type: 'expense', sign: 1, cat: null, editing: null };
+  const F = { type: 'expense', sign: 1, cat: null, editing: null, rule: null, recur: false };
 
   const defAcc = () => (filterAcc !== 'all' && acc(filterAcc)) ? filterAcc : (acc(state.lastAcc) ? state.lastAcc : state.accounts[0].id);
 
@@ -582,9 +709,18 @@
     renderFormCats();
   }
 
-  function openTx(id, preset) {
-    const x = id ? state.tx.find(v => v.id === id) : null;
-    F.editing = x ? x.id : null;
+  function syncRecUI() {
+    $('#f-rec-wrap').hidden = !F.recur;
+    $('#f-date-l').textContent = t(F.recur ? 'rec.start' : 'date');
+  }
+  // opts.recur: abrir como pago recurrente nuevo · opts.ruleId: editar un pago recurrente existente
+  function openTx(id, preset, opts) {
+    opts = opts || {};
+    const rule = opts.ruleId ? state.recurring.find(v => v.id === opts.ruleId) : null;
+    const x = id ? state.tx.find(v => v.id === id) : rule;
+    F.editing = id && x ? x.id : null;
+    F.rule = rule ? rule.id : null;
+    F.recur = !!rule || !!opts.recur;
     F.sign = x && x.type === 'adjust' && x.amount < 0 ? -1 : 1;
     F.cat = x ? (x.cat || null) : null;
     const a0 = x ? x.acc : defAcc();
@@ -595,9 +731,17 @@
     $('#f-to').value = toDef;
     setFormType(x ? x.type : (preset || 'expense'));
     $('#f-amount').value = x ? String(Math.abs(x.amount)) : '';
-    $('#f-date').value = x ? x.date : (monthKey(cur) === monthKey(new Date()) ? todayStr() : `${monthKey(cur)}-01`);
+    $('#f-date').value = x ? (x.date || x.start) : (monthKey(cur) === monthKey(new Date()) ? todayStr() : `${monthKey(cur)}-01`);
     $('#f-note').value = x ? (x.note || '') : '';
     $('#f-delete').hidden = !x;
+    $('#f-rec-row').hidden = !!x; // "Repetir" solo al crear algo nuevo
+    $('#f-rec').checked = F.recur;
+    $('#f-every').value = rule ? rule.every : 1;
+    $('#f-unit').value = rule ? rule.unit : 'month';
+    $('#f-end').value = rule && rule.end ? rule.end : '';
+    $('#f-active').checked = rule ? rule.active : true;
+    $('#f-active-row').hidden = !rule;
+    syncRecUI();
     show('ov-tx');
     if (!x) setTimeout(() => $('#f-amount').focus(), 60);
   }
@@ -616,7 +760,10 @@
     if (b.dataset.cat === '__new') { openCat(F.type, null, newId => { F.cat = newId; renderFormCats(); }); return; }
     F.cat = b.dataset.cat; renderFormCats();
   });
-  $('#tx-list').addEventListener('click', e => { const b = e.target.closest('.tx'); if (b) openTx(b.dataset.id); });
+  $('#tx-list').addEventListener('click', e => {
+    if (e.target.closest('#btn-more')) { S.limit += 100; renderHome(); return; }
+    const b = e.target.closest('.tx'); if (b) openTx(b.dataset.id);
+  });
 
   $('#f-save').addEventListener('click', () => {
     const amount = parseNum($('#f-amount').value);
@@ -639,6 +786,26 @@
       data = { type: F.type, acc: $('#f-acc').value, cat, amount: amt, date, note };
       state.lastAcc = data.acc;
     }
+    if (F.recur) {
+      const every = Math.max(1, Math.min(999, parseInt($('#f-every').value, 10) || 1));
+      const end = $('#f-end').value || null;
+      if (end && end < date) { toast(t('rec.badEnd')); return; }
+      const old = F.rule ? state.recurring.find(v => v.id === F.rule) : null;
+      const { date: startDate, ...base } = data;
+      const rule = {
+        ...base, id: old ? old.id : 'r' + uid(), every, unit: $('#f-unit').value, start: startDate, end,
+        last: old ? old.last : null, k: 0, active: old ? $('#f-active').checked : true
+      };
+      const n = rule.active ? dueCount(rule) : 0;
+      if (n > 12 && !confirm(t('rec.backfill', { n }))) return;
+      if (old) state.recurring[state.recurring.indexOf(old)] = rule; else state.recurring.push(rule);
+      const g = generateDue();
+      save();
+      if (g.latest) { const d2 = parseDate(g.latest); cur = new Date(d2.getFullYear(), d2.getMonth(), 1); }
+      hide('ov-tx'); render();
+      toast(g.made ? t(g.made === 1 ? 'rec.created1' : 'rec.created', { n: g.made }) : t('saved'));
+      return;
+    }
     if (F.editing) {
       const i = state.tx.findIndex(v => v.id === F.editing);
       if (i >= 0) state.tx[i] = { id: F.editing, ...data };
@@ -650,8 +817,13 @@
     hide('ov-tx'); render(); toast(t('saved'));
   });
   $('#f-delete').addEventListener('click', () => {
-    if (!F.editing || !confirm(t('cDelTx'))) return;
-    state.tx = state.tx.filter(v => v.id !== F.editing);
+    if (F.rule) {
+      if (!confirm(t('cDelRule'))) return;
+      state.recurring = state.recurring.filter(v => v.id !== F.rule);
+    } else {
+      if (!F.editing || !confirm(t('cDelTx'))) return;
+      state.tx = state.tx.filter(v => v.id !== F.editing);
+    }
     save(); hide('ov-tx'); render(); toast(t('deleted'));
   });
 
@@ -736,7 +908,10 @@
     const a = acc(A.id); if (!a) return;
     if (state.accounts.length <= 1) { toast(t('lastAcc')); return; }
     const n = state.tx.filter(x => x.acc === a.id || x.to === a.id).length;
-    if (!confirm(n ? t('cDelAcc', { name: a.name, n }) : t('cDelAccEmpty', { name: a.name }))) return;
+    const nr = state.recurring.filter(r => r.acc === a.id || r.to === a.id).length;
+    const msg = (n ? t('cDelAcc', { name: a.name, n }) : t('cDelAccEmpty', { name: a.name })) + (nr ? t('cDelAccRec', { r: nr }) : '');
+    if (!confirm(msg)) return;
+    state.recurring = state.recurring.filter(r => r.acc !== a.id && r.to !== a.id);
     state.tx = state.tx.filter(x => x.acc !== a.id && x.to !== a.id);
     state.accounts = state.accounts.filter(x => x.id !== a.id);
     if (state.lastAcc === a.id) state.lastAcc = state.accounts[0].id;
@@ -1062,11 +1237,133 @@
   });
 
   /* =====================================================================
+     Búsqueda, filtros y pagos recurrentes (interfaz)
+     ===================================================================== */
+  /* --- Búsqueda --- */
+  const S = { q: '', type: 'all', cat: '', from: '', to: '', min: '', max: '', limit: 100 };
+  const filterCount = () => ['type', 'cat', 'from', 'to', 'min', 'max'].filter(k => (k === 'type' ? S.type !== 'all' : S[k] !== '')).length;
+  const searchActive = () => S.q.trim() !== '' || filterCount() > 0;
+
+  function matchTx(x, toks, minN, maxN) {
+    if (S.type !== 'all' && x.type !== S.type) return false;
+    if (S.cat && x.cat !== S.cat) return false;
+    if (S.from && x.date < S.from) return false;
+    if (S.to && x.date > S.to) return false;
+    const a = Math.abs(x.amount);
+    if (isFinite(minN) && a < minN) return false;
+    if (isFinite(maxN) && a > maxN) return false;
+    if (!toks.length) return true;
+    const hay = norm([
+      x.note, accName(x.acc), x.to ? accName(x.to) : '',
+      (x.type === 'expense' || x.type === 'income') ? catName(findCat(x.cat)) : '',
+      x.type === 'adjust' ? t('adjustment') : t('type.' + x.type),
+      x.date, parseDate(x.date).toLocaleDateString(loc(), { month: 'long', year: 'numeric' }), String(a), money(a)
+    ].join(' '));
+    return toks.every(k => hay.includes(k));
+  }
+
+  function renderSearch() {
+    const toks = norm(S.q).split(/\s+/).filter(Boolean);
+    const minN = parseNum(S.min), maxN = parseNum(S.max);
+    const res = state.tx.filter(x => inFilter(x) && matchTx(x, toks, minN, maxN)).sort((a, b) => cmp(b.date, a.date) || cmp(b.id, a.id));
+    let inc = 0, exp = 0;
+    res.forEach(x => { if (x.type === 'income') inc += x.amount; else if (x.type === 'expense') exp += x.amount; });
+    $('#res-count').textContent = t(res.length === 1 ? 'movCount1' : 'movCount', { n: res.length });
+    $('#res-income').textContent = money(inc);
+    $('#res-expense').textContent = money(exp);
+    const box = $('#tx-list');
+    if (!res.length) { box.innerHTML = `<div class="empty"><span class="big">🔍</span>${esc(t('noResults'))}</div>`; return; }
+    const shown = res.slice(0, S.limit);
+    const groups = {};
+    shown.forEach(x => { (groups[x.date] = groups[x.date] || []).push(x); });
+    box.innerHTML = Object.keys(groups).map(date => {
+      const items = groups[date];
+      const net = items.reduce((s, x) => s + (x.type === 'income' ? x.amount : x.type === 'expense' ? -x.amount : 0), 0);
+      let dl = parseDate(date).toLocaleDateString(loc(), { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+      dl = dl.charAt(0).toUpperCase() + dl.slice(1);
+      return `<div class="day-head"><span>${esc(dl)}</span><span>${esc(money(net))}</span></div>` + items.map(txRow).join('');
+    }).join('') + (res.length > shown.length ? `<button class="btn" id="btn-more">${esc(t('showMore'))} (${shown.length}/${res.length})</button>` : '');
+  }
+
+  $('#q').addEventListener('input', e => { S.q = e.target.value; S.limit = 100; renderHome(); });
+  $('#q-clear').addEventListener('click', () => { S.q = ''; $('#q').value = ''; S.limit = 100; renderHome(); $('#q').focus(); });
+  $('#btn-clear-search').addEventListener('click', () => {
+    Object.assign(S, { q: '', type: 'all', cat: '', from: '', to: '', min: '', max: '', limit: 100 });
+    $('#q').value = ''; renderHome();
+  });
+
+  function openFilters() {
+    $('#flt-type').innerHTML = [['all', t('f.allTypes')], ['expense', t('type.expense')], ['income', t('type.income')],
+      ['transfer', t('type.transfer')], ['adjust', t('type.adjust')]].map(([v, l]) => `<option value="${v}">${esc(l)}</option>`).join('');
+    const group = (type, label) => `<optgroup label="${esc(label)}">` +
+      state.cats[type].map(c => `<option value="${esc(c.id)}">${esc(c.ico)} ${esc(catName(c))}</option>`).join('') + '</optgroup>';
+    $('#flt-cat').innerHTML = `<option value="">${esc(t('f.allCats'))}</option>` + group('expense', t('expense')) + group('income', t('income'));
+    $('#flt-type').value = S.type; $('#flt-cat').value = S.cat;
+    $('#flt-from').value = S.from; $('#flt-to').value = S.to;
+    $('#flt-min').value = S.min; $('#flt-max').value = S.max;
+    show('ov-filter');
+  }
+  $('#btn-filters').addEventListener('click', openFilters);
+  $('#flt-apply').addEventListener('click', () => {
+    Object.assign(S, {
+      type: $('#flt-type').value, cat: $('#flt-cat').value, from: $('#flt-from').value, to: $('#flt-to').value,
+      min: $('#flt-min').value.trim(), max: $('#flt-max').value.trim(), limit: 100
+    });
+    hide('ov-filter'); renderHome();
+  });
+  $('#flt-clear').addEventListener('click', () => {
+    Object.assign(S, { type: 'all', cat: '', from: '', to: '', min: '', max: '', limit: 100 });
+    hide('ov-filter'); renderHome();
+  });
+
+  /* --- Pagos recurrentes: pantalla --- */
+  const dateShort = ds => {
+    const d = parseDate(ds);
+    return d.toLocaleDateString(loc(), d.getFullYear() === new Date().getFullYear() ? { day: 'numeric', month: 'short' } : { day: 'numeric', month: 'short', year: 'numeric' });
+  };
+  function renderRecurring() {
+    const rows = state.recurring.map(r => ({ r, nx: nextOcc(r), ended: isEnded(r) }));
+    const live = o => (o.r.active && !o.ended ? 0 : 1);
+    rows.sort((a, b) => live(a) - live(b) || cmp(a.nx, b.nx));
+    let inc = 0, exp = 0;
+    rows.forEach(o => {
+      if (live(o) || o.r.type === 'transfer') return;
+      if (o.r.type === 'income') inc += o.r.amount * perMonth(o.r); else exp += o.r.amount * perMonth(o.r);
+    });
+    $('#rec-income').textContent = money(round2(inc));
+    $('#rec-expense').textContent = money(round2(exp));
+    $('#rec-list').innerHTML = rows.length ? rows.map(o => {
+      const r = o.r;
+      const c = r.type === 'transfer' ? null : findCat(r.cat);
+      const title = r.note || (c ? catName(c) : `${accName(r.acc)} → ${accName(r.to)}`);
+      const when = !r.active ? t('rec.paused') : o.ended ? t('rec.ended') : t('rec.next', { d: dateShort(o.nx) });
+      const sign = r.type === 'income' ? '+' : r.type === 'expense' ? '−' : '';
+      const cls = r.type === 'transfer' ? 'neutral' : r.type;
+      return `<button class="tx rec${live(o) ? ' dim' : ''}" data-id="${esc(r.id)}">
+        <div class="ico" style="background:${c ? esc(c.color) : '#64748b'}22">${c ? esc(c.ico) : '🔁'}</div>
+        <div class="info"><b>${esc(title)}</b><small>${esc(freqLabel(r))} · ${esc(when)}</small></div>
+        <div class="amt ${cls}">${sign}${esc(money(r.amount))}</div></button>`;
+    }).join('') : `<div class="empty"><span class="big">🔁</span>${t('rec.empty')}</div>`;
+  }
+  $('#rec-list').addEventListener('click', e => { const b = e.target.closest('.tx'); if (b) openTx(null, null, { ruleId: b.dataset.id }); });
+  $('#btn-add-rec').addEventListener('click', () => openTx(null, 'expense', { recur: true }));
+  $('#f-rec').addEventListener('change', e => { F.recur = e.target.checked; syncRecUI(); });
+
+  /* =====================================================================
      Inicio
      ===================================================================== */
+  const recToast = n => toast(t(n === 1 ? 'rec.created1' : 'rec.created', { n }));
   applyLang();
+  const boot = generateDue();
   render();
   setView('home');
+  if (boot.made) recToast(boot.made);
+  // Al volver a la app (por ejemplo desde la pantalla de inicio del iPhone) se registran los pagos que ya tocaban.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible') return;
+    const g = generateDue();
+    if (g.made) { render(); recToast(g.made); }
+  });
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
