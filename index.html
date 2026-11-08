@@ -25,6 +25,11 @@
   </header>
 
   <main>
+    <div class="banner" id="backup-banner" hidden>
+      <span id="bb-text"></span>
+      <button type="button" id="bb-do" data-i18n="bk.do"></button>
+      <button type="button" id="bb-later" class="ghost" data-i18n="bk.later"></button>
+    </div>
     <!-- INICIO -->
     <section id="view-home" class="view active">
       <div class="searchbar">
@@ -67,6 +72,7 @@
         <div class="change" id="acc-change"></div>
         <div class="stack" id="acc-stack"></div>
       </div>
+      <div class="card" id="inv-summary" hidden></div>
       <div id="acc-list"></div>
       <div class="btn-row">
         <button class="btn" id="btn-add-acc" data-i18n="addAccount"></button>
@@ -135,6 +141,13 @@
         <div class="chips" id="chips-income"></div>
       </div>
       <div class="card">
+        <h2>💾 <span data-i18n="bk.title"></span></h2>
+        <p class="bk-status" id="bk-status"></p>
+        <button class="btn primary" id="btn-backup" data-i18n="bk.now"></button>
+        <label class="fld mt"><span data-i18n="bk.every"></span><select id="bk-every"></select></label>
+        <p class="hint mt" data-i18n="bk.hint"></p>
+      </div>
+      <div class="card">
         <h2 data-i18n="data"></h2>
         <p class="hint" data-i18n="dataHint"></p>
         <button class="btn" id="btn-import-ms" data-i18n="importMs"></button>
@@ -163,6 +176,7 @@
     <div class="sheet" role="dialog" aria-modal="true">
       <div class="sheet-handle"></div>
       <div class="seg" id="f-seg"></div>
+      <div class="seg sign" id="f-sign" hidden></div>
       <input id="f-amount" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off">
       <label class="fld" id="f-acc-wrap"><span data-i18n="account"></span><select id="f-acc"></select></label>
       <div class="two" id="f-tr-wrap" hidden>
@@ -226,11 +240,34 @@
       <h3 id="a-title"></h3>
       <label class="fld"><span data-i18n="accountName"></span><input id="a-name" type="text" maxlength="30" autocomplete="off"></label>
       <label class="fld"><span data-i18n="opening"></span><input id="a-open" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off"></label>
+      <label class="switch" id="a-inv-row"><span data-i18n="inv.is"></span><input type="checkbox" id="a-inv"></label>
       <div class="fld"><span data-i18n="color"></span><div class="swatches" id="a-colors"></div></div>
       <div class="sheet-actions">
         <button class="btn danger" id="a-delete" hidden data-i18n="delete"></button>
         <button class="btn" id="a-cancel" data-i18n="cancel"></button>
         <button class="btn primary" id="a-save" data-i18n="save"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AJUSTAR SALDO -->
+  <div class="overlay" id="ov-adjust" hidden>
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      <h3 data-i18n="adj.title"></h3>
+      <p class="adj-name" id="j-name"></p>
+      <div class="grid2 adj-grid">
+        <div><span data-i18n="adj.cur"></span><strong id="j-cur">—</strong></div>
+        <div><span data-i18n="adj.diff"></span><strong id="j-diff">—</strong></div>
+      </div>
+      <label class="fld"><span data-i18n="adj.real"></span><input id="j-new" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off"></label>
+      <label class="fld"><span data-i18n="date"></span><input id="j-date" type="date"></label>
+      <label class="fld" id="j-as-wrap" hidden><span data-i18n="adj.as"></span><select id="j-as"></select></label>
+      <input id="j-note" type="text" data-i18n-ph="notePh" maxlength="120">
+      <p class="hint" data-i18n="adj.hint"></p>
+      <div class="sheet-actions">
+        <button class="btn" id="j-cancel" data-i18n="cancel"></button>
+        <button class="btn primary" id="j-save" data-i18n="save"></button>
       </div>
     </div>
   </div>

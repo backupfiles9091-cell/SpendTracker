@@ -18,6 +18,21 @@
       'f.type': 'Tipo', 'f.allTypes': 'Todos los tipos', 'f.cat': 'Categoría', 'f.allCats': 'Todas las categorías',
       'f.from': 'Desde', 'f.to': 'Hasta', 'f.min': 'Monto mínimo', 'f.max': 'Monto máximo', 'f.clear': 'Limpiar', 'f.apply': 'Aplicar',
       'type.adjust': 'Ajustes de saldo',
+      'inv.is': 'Es una inversión (registra rendimientos)', 'type.yield': 'Rendimiento', yieldT: 'Rendimiento', yields: 'Rendimientos',
+      yieldUp: 'Ganancia', yieldDown: 'Pérdida',
+      needInv: 'Primero marca una cuenta como inversión: Cuentas → toca la cuenta → Editar.',
+      'inv.title': 'Inversiones', 'inv.month': 'Rendimiento del mes', 'inv.year': 'Rendimiento {y}', 'inv.all': 'Rendimiento total',
+      'inv.note': 'El % es una estimación (método Dietz modificado): descuenta el efecto de tus depósitos y retiros.',
+      'adj.btn': 'Ajustar saldo', 'adj.title': 'Ajustar saldo', 'adj.cur': 'Saldo en la app', 'adj.real': 'Saldo real (el de tu banco)',
+      'adj.diff': 'Diferencia', 'adj.as': 'Registrar como', 'adj.asAdj': 'Ajuste de saldo', 'adj.asYield': 'Rendimiento',
+      'adj.same': 'El saldo ya coincide, no hay nada que ajustar', 'adj.needNew': 'Escribe el saldo real',
+      'adj.hint': 'Se crea un movimiento por la diferencia. No cuenta como ingreso ni gasto.',
+      'bk.title': 'Respaldo', 'bk.never': 'Aún no has hecho ningún respaldo', 'bk.last': 'Último respaldo: {d} ({ago})',
+      'bk.ago0': 'hoy', 'bk.ago1': 'ayer', 'bk.agoN': 'hace {n} días', 'bk.now': 'Respaldar ahora', 'bk.every': 'Recordarme',
+      'bk.ev3': 'Cada 3 días', 'bk.ev7': 'Cada semana', 'bk.ev14': 'Cada 2 semanas', 'bk.ev30': 'Cada mes', 'bk.ev0': 'Nunca',
+      'bk.hint': 'Toca "Respaldar ahora" y elige "Guardar en Archivos" (iCloud Drive) para que el respaldo quede fuera del iPhone. La app no puede guardarlo sola, por eso te avisa cuando toca.',
+      'bk.banNever': 'Aún no tienes un respaldo de tus datos.', 'bk.banDays': 'Hace {n} días que no respaldas tus datos.',
+      'bk.do': 'Respaldar', 'bk.done': 'Respaldo guardado', 'bk.later': 'Más tarde',
       results: 'Resultados', noResults: 'No se encontraron movimientos con esa búsqueda.', showMore: 'Mostrar más',
       clearSearch: 'Quitar búsqueda y filtros',
       'rec.title': 'Pagos recurrentes', 'rec.add': 'Agregar pago recurrente', 'rec.monthlyEst': 'Estimado mensual',
@@ -97,6 +112,21 @@
       'f.type': 'Type', 'f.allTypes': 'All types', 'f.cat': 'Category', 'f.allCats': 'All categories',
       'f.from': 'From', 'f.to': 'To', 'f.min': 'Minimum amount', 'f.max': 'Maximum amount', 'f.clear': 'Clear', 'f.apply': 'Apply',
       'type.adjust': 'Balance adjustments',
+      'inv.is': 'It is an investment (track returns)', 'type.yield': 'Yield', yieldT: 'Yield', yields: 'Yields',
+      yieldUp: 'Gain', yieldDown: 'Loss',
+      needInv: 'First mark an account as an investment: Accounts → tap the account → Edit.',
+      'inv.title': 'Investments', 'inv.month': 'Yield this month', 'inv.year': 'Yield {y}', 'inv.all': 'Total yield',
+      'inv.note': 'The % is an estimate (modified Dietz method): it discounts the effect of your deposits and withdrawals.',
+      'adj.btn': 'Adjust balance', 'adj.title': 'Adjust balance', 'adj.cur': 'Balance in the app', 'adj.real': 'Real balance (your bank\'s)',
+      'adj.diff': 'Difference', 'adj.as': 'Record as', 'adj.asAdj': 'Balance adjustment', 'adj.asYield': 'Yield',
+      'adj.same': 'The balance already matches, nothing to adjust', 'adj.needNew': 'Enter the real balance',
+      'adj.hint': 'A transaction is created for the difference. It does not count as income or spending.',
+      'bk.title': 'Backup', 'bk.never': 'You have not made any backup yet', 'bk.last': 'Last backup: {d} ({ago})',
+      'bk.ago0': 'today', 'bk.ago1': 'yesterday', 'bk.agoN': '{n} days ago', 'bk.now': 'Back up now', 'bk.every': 'Remind me',
+      'bk.ev3': 'Every 3 days', 'bk.ev7': 'Every week', 'bk.ev14': 'Every 2 weeks', 'bk.ev30': 'Every month', 'bk.ev0': 'Never',
+      'bk.hint': 'Tap "Back up now" and choose "Save to Files" (iCloud Drive) so the backup lives outside the iPhone. The app cannot save it by itself, which is why it reminds you.',
+      'bk.banNever': 'You do not have a backup of your data yet.', 'bk.banDays': 'It has been {n} days since your last backup.',
+      'bk.do': 'Back up', 'bk.done': 'Backup saved', 'bk.later': 'Later',
       results: 'Results', noResults: 'No transactions match your search.', showMore: 'Show more',
       clearSearch: 'Clear search and filters',
       'rec.title': 'Recurring payments', 'rec.add': 'Add recurring payment', 'rec.monthlyEst': 'Monthly estimate',
@@ -189,6 +219,8 @@
   const KEY1 = 'gastos.v1';
   const PALETTE = ['#0f9d73', '#3b82f6', '#8b5cf6', '#ec4899', '#ef4444', '#f59e0b', '#14b8a6', '#eab308', '#64748b', '#f97316', '#06b6d4', '#84cc16'];
   const EMOJIS = ['🍔', '🛒', '🚌', '🏠', '💡', '🎬', '💊', '🎓', '✈️', '🐶', '👕', '🎁', '💼', '💰', '📈', '🏦', '☕', '⛽', '📱', '🏋️', '🧾', '🔧', '🏗️', '❤️'];
+  const INV_IDS = ['cetes', 'gbm', 'supertasas'];
+  const BACKUP_EVERY = [0, 3, 7, 14, 30];
   const DEFAULT_ACCOUNTS = [['main', 'Main'], ['hsbc', 'HSBC'], ['hey', 'Hey Banco'], ['cetes', 'Cetes'], ['nu', 'Nu'], ['gbm', 'GBM'], ['supertasas', 'Supertasas']];
   const DEFAULT_CATS = {
     expense: [
@@ -214,8 +246,8 @@
 
   function defaults() {
     return {
-      v: 2, currency: 'MXN', lang: 'es', lastAcc: 'main', recurring: [],
-      accounts: DEFAULT_ACCOUNTS.map(([id, name], i) => ({ id, name, color: PALETTE[i % PALETTE.length], opening: 0 })),
+      v: 2, currency: 'MXN', lang: 'es', lastAcc: 'main', recurring: [], lastBackup: null, backupEvery: 7, backupSnooze: null,
+      accounts: DEFAULT_ACCOUNTS.map(([id, name], i) => ({ id, name, color: PALETTE[i % PALETTE.length], opening: 0, kind: INV_IDS.includes(id) ? 'investment' : 'cash' })),
       cats: { expense: DEFAULT_CATS.expense.map(c => ({ ...c })), income: DEFAULT_CATS.income.map(c => ({ ...c })) },
       tx: []
     };
@@ -237,7 +269,8 @@
         accs.push({
           id: String(a.id), name: String(a.name || 'Cuenta').slice(0, 30),
           color: typeof a.color === 'string' ? a.color : PALETTE[i % PALETTE.length],
-          opening: isFinite(a.opening) ? Number(a.opening) : 0
+          opening: isFinite(a.opening) ? Number(a.opening) : 0,
+          kind: a.kind === 'investment' || (a.kind === undefined && INV_IDS.includes(String(a.id))) ? 'investment' : 'cash'
         });
       });
       if (accs.length) base.accounts = accs;
@@ -263,7 +296,7 @@
 
     if (Array.isArray(d.tx)) {
       base.tx = d.tx.filter(x => x && typeof x.date === 'string' && DATE_RE.test(x.date) && isFinite(x.amount) &&
-        ['expense', 'income', 'transfer', 'adjust'].includes(x.type)).map(x => {
+        ['expense', 'income', 'transfer', 'adjust', 'yield'].includes(x.type)).map(x => {
         const o = { id: String(x.id || uid()), type: x.type, amount: Number(x.amount), date: x.date, note: String(x.note || ''), acc: accIds.has(x.acc) ? x.acc : first };
         if (x.type === 'transfer') o.to = x.to;
         if (x.type === 'expense' || x.type === 'income') o.cat = String(x.cat || '');
@@ -288,6 +321,9 @@
         return o;
       });
     }
+    base.lastBackup = DATE_RE.test(String(d.lastBackup)) ? d.lastBackup : null;
+    base.backupSnooze = DATE_RE.test(String(d.backupSnooze)) ? d.backupSnooze : null;
+    base.backupEvery = BACKUP_EVERY.includes(d.backupEvery) ? d.backupEvery : 7;
     return base;
   }
 
@@ -367,7 +403,8 @@
     switch (x.type) {
       case 'income': return x.acc === id ? x.amount : 0;
       case 'expense': return x.acc === id ? -x.amount : 0;
-      case 'adjust': return x.acc === id ? x.amount : 0;
+      case 'adjust':
+      case 'yield': return x.acc === id ? x.amount : 0;
       case 'transfer': return (x.acc === id ? -x.amount : 0) + (x.to === id ? x.amount : 0);
       default: return 0;
     }
@@ -440,6 +477,63 @@
   const freqLabel = r => t('rec.' + r.unit + (r.every === 1 ? '1' : 'N'), { n: r.every });
   const perMonth = r => ({ day: 30.4375, week: 4.3452, month: 1, year: 1 / 12 }[r.unit] / r.every);
 
+  /* --- Rendimientos de inversión (método Dietz modificado) ---
+     rendimiento % = ganancias / (saldo inicial + depósitos y retiros ponderados por los días que estuvieron invertidos).
+     Los ajustes de saldo, transferencias, ingresos y gastos cuentan como aportaciones; solo los "rendimientos" son ganancia. */
+  const dayDiff = (a, b) => Math.round((parseDate(b) - parseDate(a)) / 864e5);
+  const isInv = id => { const x = acc(id); return !!x && x.kind === 'investment'; };
+  const invIds = () => state.accounts.filter(a => a.kind === 'investment').map(a => a.id);
+  function balBefore(id, from) {
+    const a = acc(id); let b = a ? a.opening : 0;
+    for (const x of state.tx) if (x.date < from) b += effect(x, id);
+    return b;
+  }
+  function returnFor(ids, from, to) {
+    const today = todayStr();
+    const end = to > today ? (from <= today ? today : from) : to;
+    const D = Math.max(1, dayDiff(from, end) + 1);
+    let bmv = 0, y = 0, wcf = 0, any = false;
+    ids.forEach(id => { bmv += balBefore(id, from); });
+    state.tx.forEach(x => {
+      if (x.date < from || x.date > end) return;
+      if (x.type === 'yield') { if (ids.includes(x.acc)) { y += x.amount; any = true; } return; }
+      let e = 0; ids.forEach(id => { e += effect(x, id); });
+      if (e) wcf += e * (D - dayDiff(from, x.date)) / D;
+    });
+    y = round2(y);
+    const den = bmv + wcf;
+    return { y, any, pct: any && den > 0.005 ? y / den * 100 : null };
+  }
+  function firstDate(ids) {
+    let f = null;
+    state.tx.forEach(x => { if ((ids.includes(x.acc) || ids.includes(x.to)) && (f === null || x.date < f)) f = x.date; });
+    return f;
+  }
+  const fmtPct = p => (p > 0.004 ? '+' : '') + p.toFixed(2) + '%';
+  const retText = r => (!r.any ? '—' : signed(r.y) + (r.pct == null ? '' : ' (' + fmtPct(r.pct) + ')'));
+  const retCls = r => (r.any ? colorCls(r.y) : '');
+  function invRows(ids) {
+    const y = cur.getFullYear(), mk = monthKey(cur);
+    const last = new Date(y, cur.getMonth() + 1, 0).getDate();
+    const first = firstDate(ids);
+    const rows = [
+      [t('inv.month'), returnFor(ids, mk + '-01', `${mk}-${pad(last)}`)],
+      [t('inv.year', { y }), returnFor(ids, `${y}-01-01`, `${y}-12-31`)],
+      [t('inv.all'), first ? returnFor(ids, first, '9999-12-31') : { y: 0, any: false, pct: null }]
+    ];
+    return `<div class="inv-box">${rows.map(([l, r]) => `<div class="inv-row"><span>${esc(l)}</span><b class="${retCls(r)}">${esc(retText(r))}</b></div>`).join('')}</div>`;
+  }
+
+  /* --- Respaldos --- */
+  const daysSinceBackup = () => (state.lastBackup ? Math.max(0, dayDiff(state.lastBackup, todayStr())) : null);
+  function backupDue() {
+    if (!state.tx.length || !state.backupEvery) return false;
+    if (state.backupSnooze && todayStr() < state.backupSnooze) return false;
+    const n = daysSinceBackup();
+    return n === null || n >= state.backupEvery;
+  }
+  const agoText = n => t(n === 0 ? 'bk.ago0' : n === 1 ? 'bk.ago1' : 'bk.agoN', { n });
+
   /* =====================================================================
      Vistas
      ===================================================================== */
@@ -465,10 +559,11 @@
     renderStats();
     renderRecurring();
     renderSettings();
+    renderBackup();
   }
 
-  function accOptions(selected) {
-    return state.accounts.map(a => `<option value="${esc(a.id)}"${a.id === selected ? ' selected' : ''}>${esc(a.name)}</option>`).join('');
+  function accOptions(selected, only) {
+    return state.accounts.filter(a => !only || only(a)).map(a => `<option value="${esc(a.id)}"${a.id === selected ? ' selected' : ''}>${esc(a.name)}</option>`).join('');
   }
   function renderFilter() {
     if (filterAcc !== 'all' && !acc(filterAcc)) filterAcc = 'all';
@@ -489,6 +584,12 @@
       const up = x.amount >= 0;
       return `<button class="tx" data-id="${esc(x.id)}"><div class="ico" style="background:#64748b22">⚖️</div>
         <div class="info"><b>${esc(t('adjustment'))}</b><small>${esc(accName(x.acc))}${x.note ? ' · ' + esc(x.note) : ''}</small></div>
+        <div class="amt ${up ? 'income' : 'expense'}">${up ? '+' : '−'}${esc(money(Math.abs(x.amount)))}</div></button>`;
+    }
+    if (x.type === 'yield') {
+      const up = x.amount >= 0;
+      return `<button class="tx" data-id="${esc(x.id)}"><div class="ico" style="background:#0f9d7322">📈</div>
+        <div class="info"><b>${esc(t('yieldT'))}</b><small>${esc(accName(x.acc))}${x.note ? ' · ' + esc(x.note) : ''}</small></div>
         <div class="amt ${up ? 'income' : 'expense'}">${up ? '+' : '−'}${esc(money(Math.abs(x.amount)))}</div></button>`;
     }
     const c = findCat(x.cat);
@@ -557,11 +658,23 @@
       ? rows.filter(r => r.bal > 0).sort((x, y) => y.bal - x.bal).map(r => `<i style="width:${(r.bal / pos * 100).toFixed(2)}%;background:${esc(r.a.color)}"></i>`).join('')
       : '';
 
+    const iids = invIds();
+    const inv = $('#inv-summary');
+    inv.hidden = !iids.length;
+    if (iids.length) {
+      inv.innerHTML = `<h2>📈 ${esc(t('inv.title'))}</h2><div class="inv-bal">${esc(money(sumBal(iids, end)))}</div>${invRows(iids)}<p class="hint mt">${esc(t('inv.note'))}</p>`;
+    }
+    const mkc = monthKey(cur), lastD = new Date(cur.getFullYear(), cur.getMonth() + 1, 0).getDate();
     $('#acc-list').innerHTML = rows.map(r => {
       const share = pos > 0 && r.bal > 0 ? Math.round(r.bal / pos * 100) : 0;
+      let extra = '';
+      if (r.a.kind === 'investment') {
+        const ry = returnFor([r.a.id], mkc + '-01', `${mkc}-${pad(lastD)}`);
+        if (ry.any) extra = ` · 📈 ${signed(ry.y)}`;
+      }
       return `<button class="acc" data-id="${esc(r.a.id)}">
         <div class="ico" style="background:${esc(r.a.color)}">${esc(Array.from(r.a.name)[0] || '?').toUpperCase()}</div>
-        <div class="info"><b>${esc(r.a.name)}</b><small>${esc(t('shareOf', { p: share }))}</small></div>
+        <div class="info"><b>${esc(r.a.name)}</b><small>${esc(t('shareOf', { p: share }) + extra)}</small></div>
         <div class="right"><b class="${r.bal < 0 ? 'neg' : ''}">${esc(money(r.bal))}</b><small class="${colorCls(r.ch)}">${esc(signed(r.ch))}</small></div>
       </button>`;
     }).join('');
@@ -672,7 +785,9 @@
       const elapsed = y === now.getFullYear() ? now.getMonth() + 1 : 12;
       const net = round2(inc - exp);
       const st = (l, v, cls) => `<div>${esc(l)}<strong class="${cls || ''}">${esc(money(v))}</strong></div>`;
-      ys.innerHTML = `<h2>${esc(t('yearSummary', { y }))}</h2><div class="grid2">${st(t('income'), inc)}${st(t('expense'), exp)}${st(t('net'), net, colorCls(net))}${st(t('avgSpend'), round2(exp / elapsed))}</div>`;
+      const ylds = state.tx.filter(x => x.type === 'yield' && x.date.startsWith(prefix) && inFilter(x));
+      const yl = round2(ylds.reduce((s, x) => s + x.amount, 0));
+      ys.innerHTML = `<h2>${esc(t('yearSummary', { y }))}</h2><div class="grid2">${st(t('income'), inc)}${st(t('expense'), exp)}${st(t('net'), net, colorCls(net))}${st(t('avgSpend'), round2(exp / elapsed))}${ylds.length ? st('📈 ' + t('yields'), yl, colorCls(yl)) : ''}</div>`;
     }
 
     // Gastos por categoría (del mes o de todo el año)
@@ -738,6 +853,21 @@
     });
   }
 
+  function renderBackup() {
+    const due = backupDue();
+    const bn = $('#backup-banner');
+    bn.hidden = !due;
+    if (due) {
+      const n = daysSinceBackup();
+      $('#bb-text').textContent = n === null ? t('bk.banNever') : t('bk.banDays', { n });
+    }
+    const n = daysSinceBackup();
+    let dl = '';
+    if (state.lastBackup) dl = parseDate(state.lastBackup).toLocaleDateString(loc(), { day: 'numeric', month: 'short', year: 'numeric' });
+    $('#bk-status').textContent = n === null ? t('bk.never') : t('bk.last', { d: dl, ago: agoText(n) });
+    $('#bk-every').innerHTML = BACKUP_EVERY.map(v => `<option value="${v}"${v === state.backupEvery ? ' selected' : ''}>${esc(t('bk.ev' + v))}</option>`).join('');
+  }
+
   /* =====================================================================
      Navegación y filtros
      ===================================================================== */
@@ -787,9 +917,15 @@
   const defAcc = () => (filterAcc !== 'all' && acc(filterAcc)) ? filterAcc : (acc(state.lastAcc) ? state.lastAcc : state.accounts[0].id);
 
   function renderSeg() {
-    const opts = F.type === 'adjust'
-      ? [['adjust+', t('type.adjUp'), F.sign > 0], ['adjust-', t('type.adjDown'), F.sign < 0]]
-      : [['expense', t('type.expense'), F.type === 'expense'], ['income', t('type.income'), F.type === 'income'], ['transfer', t('type.transfer'), F.type === 'transfer']];
+    let opts;
+    if (F.type === 'adjust') {
+      opts = [['adjust+', t('type.adjUp'), F.sign > 0], ['adjust-', t('type.adjDown'), F.sign < 0]];
+      if (isInv($('#f-acc').value)) opts.push(['yield', t('type.yield'), false]); // convertir un ajuste en rendimiento
+    } else {
+      opts = [['expense', t('type.expense'), F.type === 'expense'], ['income', t('type.income'), F.type === 'income'], ['transfer', t('type.transfer'), F.type === 'transfer']];
+      if (!F.recur) opts.push(['yield', t('type.yield'), F.type === 'yield']);
+    }
+    $('#f-seg').classList.toggle('four', opts.length === 4);
     $('#f-seg').innerHTML = opts.map(([v, l, on]) => `<button type="button" data-v="${v}" class="${on ? 'active' : ''}">${esc(l)}</button>`).join('');
   }
   function renderFormCats() {
@@ -800,12 +936,24 @@
       `<button type="button" class="cat ${c.id === F.cat ? 'sel' : ''}" data-cat="${esc(c.id)}"><span>${esc(c.ico)}</span><em>${esc(catName(c))}</em></button>`
     ).join('') + `<button type="button" class="cat add" data-cat="__new"><span>＋</span><em>${esc(t('newCat'))}</em></button>`;
   }
+  function renderSign() {
+    const on = F.type === 'yield';
+    $('#f-sign').hidden = !on;
+    if (!on) return;
+    $('#f-sign').innerHTML = [[1, t('yieldUp')], [-1, t('yieldDown')]].map(([s, l]) => `<button type="button" data-s="${s}" class="${F.sign === s ? 'active' : ''}">${esc(l)}</button>`).join('');
+  }
   function setFormType(tp) {
     F.type = tp;
+    const cv = $('#f-acc').value;
+    $('#f-acc').innerHTML = accOptions(cv, tp === 'yield' ? (x => x.kind === 'investment' || (!!F.editing && x.id === cv)) : null);
+    if (Array.from($('#f-acc').options).some(o => o.value === cv)) $('#f-acc').value = cv;
+    if (tp === 'yield') { F.recur = false; $('#f-rec').checked = false; syncRecUI(); }
+    $('#f-rec-row').hidden = !!F.editing || !!F.rule || tp === 'yield' || tp === 'adjust';
     if ((tp === 'expense' || tp === 'income') && !state.cats[tp].some(c => c.id === F.cat)) F.cat = (state.cats[tp][0] || {}).id || null;
     $('#f-acc-wrap').hidden = tp === 'transfer';
     $('#f-tr-wrap').hidden = tp !== 'transfer';
     renderSeg();
+    renderSign();
     renderFormCats();
   }
 
@@ -821,7 +969,7 @@
     F.editing = id && x ? x.id : null;
     F.rule = rule ? rule.id : null;
     F.recur = !!rule || !!opts.recur;
-    F.sign = x && x.type === 'adjust' && x.amount < 0 ? -1 : 1;
+    F.sign = x && (x.type === 'adjust' || x.type === 'yield') && x.amount < 0 ? -1 : 1;
     F.cat = x ? (x.cat || null) : null;
     const a0 = x ? x.acc : defAcc();
     $('#f-acc').innerHTML = accOptions(a0);
@@ -834,7 +982,7 @@
     $('#f-date').value = x ? (x.date || x.start) : (monthKey(cur) === monthKey(new Date()) ? todayStr() : `${monthKey(cur)}-01`);
     $('#f-note').value = x ? (x.note || '') : '';
     $('#f-delete').hidden = !x;
-    $('#f-rec-row').hidden = !!x; // "Repetir" solo al crear algo nuevo
+    $('#f-rec-row').hidden = !!x || F.type === 'yield'; // "Repetir" solo al crear algo nuevo (y no para rendimientos)
     $('#f-rec').checked = F.recur;
     $('#f-every').value = rule ? rule.every : 1;
     $('#f-unit').value = rule ? rule.unit : 'month';
@@ -853,7 +1001,12 @@
     const v = b.dataset.v;
     if (v === 'adjust+') { F.sign = 1; renderSeg(); }
     else if (v === 'adjust-') { F.sign = -1; renderSeg(); }
+    else if (v === 'yield' && !invIds().length) toast(t('needInv'));
     else setFormType(v);
+  });
+  $('#f-sign').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    F.sign = +b.dataset.s; renderSign();
   });
   $('#f-cats').addEventListener('click', e => {
     const b = e.target.closest('.cat'); if (!b) return;
@@ -879,8 +1032,8 @@
       if (from === to) { toast(t('sameAcc')); return; }
       data = { type: 'transfer', acc: from, to, amount: amt, date, note };
       state.lastAcc = from;
-    } else if (F.type === 'adjust') {
-      data = { type: 'adjust', acc: $('#f-acc').value, amount: F.sign * amt, date, note };
+    } else if (F.type === 'adjust' || F.type === 'yield') {
+      data = { type: F.type, acc: $('#f-acc').value, amount: F.sign * amt, date, note };
     } else {
       const cat = F.cat || (state.cats[F.type][0] || {}).id || '';
       data = { type: F.type, acc: $('#f-acc').value, cat, amount: amt, date, note };
@@ -954,9 +1107,11 @@
         <div><h3>${esc(a.name)}</h3><small>${esc(t('shareOf', { p: share }))} · ${esc(t(n === 1 ? 'movCount1' : 'movCount', { n }))}</small></div></div>
       <div class="detail-bal ${bal < 0 ? 'neg' : ''}">${esc(money(bal))}</div>
       <div class="grid2">${stat(t('monthIncome'), mi)}${stat(t('monthExpense'), me)}${stat(t('trIn'), tin)}${stat(t('trOut'), tout)}${stat(t('allIncome'), ai)}${stat(t('allExpense'), ae)}</div>
+      ${a.kind === 'investment' ? `<div class="detail-sub">📈 ${esc(t('inv.title'))}</div>${invRows([id])}` : ''}
       <div class="detail-sub">${esc(t('trendT'))}</div>
       <div class="trend-svg">${lineSvg(trendPoints([id]), esc(a.color))}</div>
-      <div class="sheet-actions" style="margin-top:12px">
+      <button class="btn" data-act="adjust" style="margin-top:12px">⚖️ ${esc(t('adj.btn'))}</button>
+      <div class="sheet-actions" style="margin-top:8px">
         <button class="btn" data-act="edit">${esc(t('edit'))}</button>
         <button class="btn primary" data-act="movs">${esc(t('showMov'))}</button>
       </div>`;
@@ -966,6 +1121,7 @@
   $('#detail-body').addEventListener('click', e => {
     const b = e.target.closest('[data-act]'); if (!b) return;
     if (b.dataset.act === 'edit') openAcc(detailId);
+    if (b.dataset.act === 'adjust') openAdjust(detailId);
     if (b.dataset.act === 'movs') { filterAcc = detailId; hide('ov-detail'); setView('home'); render(); }
   });
 
@@ -978,6 +1134,7 @@
     $('#a-name').value = a ? a.name : '';
     $('#a-open').value = a ? String(a.opening) : '';
     $('#a-delete').hidden = !a;
+    $('#a-inv').checked = !!a && a.kind === 'investment';
     renderSwatches('#a-colors', A.color, c => { A.color = c; });
     show('ov-acc');
     if (!a) setTimeout(() => $('#a-name').focus(), 60);
@@ -995,9 +1152,9 @@
     const op = parseNum($('#a-open').value);
     const opening = isFinite(op) ? round2(op) : 0;
     if (A.id) {
-      const a = acc(A.id); a.name = name; a.color = A.color; a.opening = opening;
+      const a = acc(A.id); a.name = name; a.color = A.color; a.opening = opening; a.kind = $('#a-inv').checked ? 'investment' : 'cash';
     } else {
-      state.accounts.push({ id: 'a' + uid(), name, color: A.color, opening });
+      state.accounts.push({ id: 'a' + uid(), name, color: A.color, opening, kind: $('#a-inv').checked ? 'investment' : 'cash' });
     }
     save(); hide('ov-acc');
     render();
@@ -1017,6 +1174,52 @@
     if (state.lastAcc === a.id) state.lastAcc = state.accounts[0].id;
     if (filterAcc === a.id) filterAcc = 'all';
     save(); hide('ov-acc'); hide('ov-detail'); render(); toast(t('deleted'));
+  });
+
+
+  /* --- Ajustar el saldo de una cuenta al saldo real --- */
+  const J = { id: null };
+  function adjDiff() {
+    const real = parseNum($('#j-new').value), date = $('#j-date').value;
+    if (!isFinite(real) || !date) return null;
+    return round2(real - balanceOf(J.id, date));
+  }
+  function adjPreview() {
+    const date = $('#j-date').value;
+    $('#j-cur').textContent = money(balanceOf(J.id, date || undefined));
+    const d = adjDiff();
+    const el = $('#j-diff');
+    el.textContent = d === null ? '—' : signed(d);
+    el.className = d === null ? '' : colorCls(d);
+  }
+  function openAdjust(id) {
+    const a = acc(id); if (!a) return;
+    J.id = id;
+    $('#j-name').textContent = a.name;
+    $('#j-new').value = '';
+    $('#j-date').value = todayStr();
+    $('#j-note').value = '';
+    const inv = a.kind === 'investment';
+    $('#j-as-wrap').hidden = !inv;
+    $('#j-as').innerHTML = `<option value="yield">${esc(t('adj.asYield'))}</option><option value="adjust">${esc(t('adj.asAdj'))}</option>`;
+    $('#j-as').value = inv ? 'yield' : 'adjust';
+    adjPreview();
+    show('ov-adjust');
+    setTimeout(() => $('#j-new').focus(), 60);
+  }
+  ['#j-new', '#j-date'].forEach(s => $(s).addEventListener('input', adjPreview));
+  $('#j-cancel').addEventListener('click', () => hide('ov-adjust'));
+  $('#j-save').addEventListener('click', () => {
+    if (!isFinite(parseNum($('#j-new').value))) { toast(t('adj.needNew')); return; }
+    if (!$('#j-date').value) { toast(t('needDate')); return; }
+    const d = adjDiff();
+    if (d === null || Math.abs(d) < 0.005) { toast(t('adj.same')); return; }
+    const date = $('#j-date').value;
+    const type = !$('#j-as-wrap').hidden && $('#j-as').value === 'yield' ? 'yield' : 'adjust';
+    state.tx.push({ id: uid(), type, acc: J.id, amount: d, date, note: $('#j-note').value.trim() });
+    save();
+    const dd = parseDate(date); cur = new Date(dd.getFullYear(), dd.getMonth(), 1);
+    hide('ov-adjust'); render(); openDetail(J.id); toast(t('saved'));
   });
 
   /* =====================================================================
@@ -1081,21 +1284,33 @@
   $('#lang').addEventListener('change', e => { state.lang = e.target.value; save(); applyLang(); render(); });
   $('#currency').addEventListener('change', e => { state.currency = e.target.value; save(); render(); });
 
+  // Devuelve true si el archivo se compartió o se descargó, y false si la persona canceló.
   async function shareOrDownload(filename, mime, content) {
     const blob = new Blob([content], { type: mime });
     try {
       const file = new File([blob], filename, { type: mime });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: filename }); return; }
-    } catch (e) { if (e && e.name === 'AbortError') return; }
+      if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: filename }); return true; }
+    } catch (e) { if (e && e.name === 'AbortError') return false; }
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url; a.download = filename;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 4000);
+    return true;
   }
-  $('#btn-export').addEventListener('click', () => {
-    shareOrDownload(`respaldo-gastos-${todayStr()}.json`, 'application/json', JSON.stringify(state, null, 2));
-  });
+  // Respaldo completo (JSON). Solo se marca como hecho si la persona realmente lo guardó o compartió.
+  async function doBackup() {
+    const today = todayStr();
+    const ok = await shareOrDownload(`respaldo-gastos-${today}.json`, 'application/json', JSON.stringify({ ...state, lastBackup: today, backupSnooze: null }, null, 2));
+    if (!ok) return;
+    state.lastBackup = today; state.backupSnooze = null;
+    save(); renderBackup(); toast(t('bk.done'));
+  }
+  $('#btn-export').addEventListener('click', doBackup);
+  $('#btn-backup').addEventListener('click', doBackup);
+  $('#bb-do').addEventListener('click', doBackup);
+  $('#bb-later').addEventListener('click', () => { state.backupSnooze = addDays(todayStr(), 1); save(); renderBackup(); });
+  $('#bk-every').addEventListener('change', e => { state.backupEvery = +e.target.value; save(); renderBackup(); });
   $('#btn-csv').addEventListener('click', () => {
     const q = v => '"' + String(v).replace(/"/g, '""') + '"';
     const rows = [['date', 'type', 'account', 'to_account', 'category', 'amount', 'note'].join(',')];
@@ -1122,7 +1337,7 @@
 
   $('#btn-reset').addEventListener('click', () => {
     if (!confirm(t('cReset'))) return;
-    const keep = { currency: state.currency, lang: state.lang };
+    const keep = { currency: state.currency, lang: state.lang, backupEvery: state.backupEvery };
     state = { ...defaults(), ...keep }; filterAcc = 'all';
     save(); render(); toast(t('wiped'));
   });
@@ -1204,7 +1419,7 @@
     const getAcc = name => {
       let a = accounts.find(x => norm(x.name) === norm(name));
       if (!a) {
-        a = { id: 'a' + uid(), name: name.slice(0, 30), color: PALETTE[(state.accounts.length + newAccs.length) % PALETTE.length], opening: 0 };
+        a = { id: 'a' + uid(), name: name.slice(0, 30), color: PALETTE[(state.accounts.length + newAccs.length) % PALETTE.length], opening: 0, kind: 'cash' };
         accounts.push(a); newAccs.push(a);
       }
       return a.id;
@@ -1394,7 +1609,7 @@
 
   function openFilters() {
     $('#flt-type').innerHTML = [['all', t('f.allTypes')], ['expense', t('type.expense')], ['income', t('type.income')],
-      ['transfer', t('type.transfer')], ['adjust', t('type.adjust')]].map(([v, l]) => `<option value="${v}">${esc(l)}</option>`).join('');
+      ['transfer', t('type.transfer')], ['adjust', t('type.adjust')], ['yield', t('type.yield')]].map(([v, l]) => `<option value="${v}">${esc(l)}</option>`).join('');
     const group = (type, label) => `<optgroup label="${esc(label)}">` +
       state.cats[type].map(c => `<option value="${esc(c.id)}">${esc(c.ico)} ${esc(catName(c))}</option>`).join('') + '</optgroup>';
     $('#flt-cat').innerHTML = `<option value="">${esc(t('f.allCats'))}</option>` + group('expense', t('expense')) + group('income', t('income'));
@@ -1447,13 +1662,14 @@
   }
   $('#rec-list').addEventListener('click', e => { const b = e.target.closest('.tx'); if (b) openTx(null, null, { ruleId: b.dataset.id }); });
   $('#btn-add-rec').addEventListener('click', () => openTx(null, 'expense', { recur: true }));
-  $('#f-rec').addEventListener('change', e => { F.recur = e.target.checked; syncRecUI(); });
+  $('#f-rec').addEventListener('change', e => { F.recur = e.target.checked; if (F.recur && F.type === 'yield') setFormType('expense'); else renderSeg(); syncRecUI(); });
 
   /* =====================================================================
      Inicio
      ===================================================================== */
   const recToast = n => toast(t(n === 1 ? 'rec.created1' : 'rec.created', { n }));
   applyLang();
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) { /* opcional */ }
   const boot = generateDue();
   render();
   setView('home');
@@ -1464,7 +1680,7 @@
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState !== 'visible') return;
     const g = generateDue();
-    if (g.made) { render(); recToast(g.made); }
+    if (g.made) { render(); recToast(g.made); } else renderBackup();
   });
 
   if ('serviceWorker' in navigator) {
